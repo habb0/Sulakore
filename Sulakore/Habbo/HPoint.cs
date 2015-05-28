@@ -24,22 +24,49 @@
 
 namespace Sulakore.Habbo
 {
+    /// <summary>
+    /// Represents a floor object's in-game position relative to the map's three-dimensional plane.
+    /// </summary>
     public struct HPoint
     {
-        public int X { get; }
+        /// <summary>
+        /// Gets the x-coordinate of this <see cref="HPoint"/>.
+        /// </summary>
+        public int X { get; set; }
+        /// <summary>
+        /// Gets the y-coordinate of this <see cref="HPoint"/>.
+        /// </summary>
         public int Y { get; }
-        public string Z { get; }
+        /// <summary>
+        /// Gets the z-coordinate of this <see cref="HPoint"/>.
+        /// </summary>
+        public double Z { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
+        /// </summary>
+        /// <param name="x">The horizontal position of the floor object.</param>
+        /// <param name="y">The vertical position of the floor object.</param>
         public HPoint(int x, int y)
-            : this(x, y, "0.0")
+            : this(x, y, 0.0)
         { }
-        public HPoint(int x, int y, string z)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
+        /// </summary>
+        /// <param name="x">The horizontal position of the floor object.</param>
+        /// <param name="y">The vertical position of the floor object.</param>
+        /// <param name="z">The elevated position of the floor object.</param>
+        public HPoint(int x, int y, double z)
         {
             X = x;
             Y = y;
             Z = z;
         }
 
+        /// <summary>
+        /// Converts this <see cref="HPoint"/> to a human-readable string.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
             => $"{{X={X},Y={Y},Z={Z}}}";
     }
