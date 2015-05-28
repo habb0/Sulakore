@@ -1,7 +1,9 @@
-﻿/* GitHub(Source): https://GitHub.com/ArachisH
+﻿/* Copyright
+
+    GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel desktop applications.
-    Copyright (C) 2015  Arachis
+    Copyright (C) 2015 Arachis
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +18,8 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+    See License.txt in the project root for license information.
 */
 
 using System;
@@ -23,12 +27,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Sulakore.Habbo;
 using Sulakore.Habbo.Web;
 
 namespace Sulakore
 {
     /// <summary>
-    /// Provides static methods for extracting public information from a specific hotel.
+    /// Provides static methods for extracting public information from a hotel.
     /// </summary>
     public static class SKore
     {
@@ -39,11 +44,19 @@ namespace Sulakore
         private static string _ipCookie;
 
         private static readonly HttpClient _httpClient;
+        private static readonly Random _randomSign, _randomTheme;
         private static readonly HttpClientHandler _httpClientHandler;
+        private static readonly object _randomSignLock, _randomThemeLock;
         private static readonly IDictionary<HHotel, IDictionary<string, string>> _uniqueIds;
 
         static SKore()
         {
+            _randomSign = new Random();
+            _randomTheme = new Random();
+
+            _randomSignLock = new object();
+            _randomThemeLock = new object();
+
             _httpClientHandler = new HttpClientHandler() { UseProxy = false };
             _httpClient = new HttpClient(_httpClientHandler, true);
 
@@ -64,7 +77,7 @@ namespace Sulakore
                 IP_COOKIE_PREFIX + body.GetChilds("setCookie", '\'', false)[3] : string.Empty;
         }
         /// <summary>
-        /// Returns the <seealso cref="HUser"/> from the specified hotel assoicted with the given name.
+        /// Returns the <seealso cref="HUser"/> from the specified hotel associated with the given name in an asynchronous operation.
         /// </summary>
         /// <param name="name">The name of the player you wish to retrieve the <seealso cref="HUser"/> from.</param>
         /// <param name="hotel">The <seealso cref="HHotel"/> that the target user is located on.</param>
@@ -76,9 +89,8 @@ namespace Sulakore
 
             return HUser.Create(userJson);
         }
-
         /// <summary>
-        /// Returns the unique identifier from the specified <seealso cref="HHotel"/> associated with the given name.
+        /// Returns the unique identifier from the specified <seealso cref="HHotel"/> associated with the given name in an asynchronous operation.
         /// </summary>
         /// <param name="name">The name of the player you wish to retrieve the unique identifier from.</param>
         /// <param name="hotel">The <seealso cref="HHotel"/> that the target user is located on.</param>
@@ -98,7 +110,7 @@ namespace Sulakore
             return uniqueId;
         }
         /// <summary>
-        /// Returns the <seealso cref="HProfile"/> from the specified hotel assoicted with the given name.
+        /// Returns the <seealso cref="HProfile"/> from the specified hotel associated with the given unique identifier in an asynchronous operation.
         /// </summary>
         /// <param name="uniqueId">The unique identifier of the player you wish to retrieve the <see cref="HProfile"/> from.</param>
         /// <param name="hotel">The <seealso cref="HHotel"/> that the target user is located on.</param>
@@ -112,6 +124,49 @@ namespace Sulakore
         }
 
         /// <summary>
+        /// Returns the primitive value for the specified <see cref="HSign"/>.
+        /// </summary>
+        /// <param name="sign">The <see cref="HSign"/> you wish to retrieve the primitive value from.</param>
+        /// <returns></returns>
+        public static int Juice(this HSign sign)
+        {
+            if (sign != HSign.Random)
+                return (int)sign;
+
+            lock (_randomSignLock)
+                return _randomSign.Next(0, 19);
+        }
+        /// <summary>
+        /// Returns the primitive value for the specified <see cref="HBan"/>.
+        /// </summary>
+        /// <param name="ban">The <see cref="HBan"/> you wish to retrieve the primitive value from.</param>
+        /// <returns></returns>
+        public static string Juice(this HBan ban)
+        {
+            switch (ban)
+            {
+                default:
+                case HBan.Day: return "RWUAM_BAN_USER_DAY";
+
+                case HBan.Hour: return "RWUAM_BAN_USER_HOUR";
+                case HBan.Permanent: return "RWUAM_BAN_USER_PERM";
+            }
+        }
+        /// <summary>
+        /// Returns the primitive value for the specified <see cref="HTheme"/>.
+        /// </summary>
+        /// <param name="theme">The <see cref="HTheme"/> you wish to retrieve the primitive value from.</param>
+        /// <returns></returns>
+        public static int Juice(this HTheme theme)
+        {
+            if (theme != HTheme.Random)
+                return (int)theme;
+
+            lock (_randomThemeLock)
+                return _randomTheme.Next(0, 30);
+        }
+
+        /// <summary>
         /// Returns the full url representation of the specified <seealso cref="HHotel"/>.
         /// </summary>
         /// <param name="hotel">The <seealso cref="HHotel"/> you wish to retrieve the full url from.</param>
@@ -122,7 +177,7 @@ namespace Sulakore
             return HotelUrlFormat + hotel.ToDomain();
         }
         /// <summary>
-        /// Returns the domain of the associated <see cref="HHotel"/>.
+        /// Returns the domain associated with the specified <see cref="HHotel"/>.
         /// </summary>
         /// <param name="hotel">The <see cref="HHotel"/> that is associated with the wanted domain.</param>
         /// <returns></returns>
@@ -130,6 +185,49 @@ namespace Sulakore
         {
             string value = hotel.ToString().ToLower();
             return value.Length != 5 ? value : value.Insert(3, ".");
+        }
+
+        /// <summary>
+        /// Returns the <see cref="HBan"/> associated with the specified value.
+        /// </summary>
+        /// <param name="ban">The string representation of the <see cref="HBan"/> object.</param>
+        /// <returns></returns>
+        public static HBan ToBan(string ban)
+        {
+            switch (ban)
+            {
+                default:
+                case "RWUAM_BAN_USER_DAY": return HBan.Day;
+
+                case "RWUAM_BAN_USER_HOUR": return HBan.Hour;
+                case "RWUAM_BAN_USER_PERM": return HBan.Permanent;
+            }
+        }
+        /// <summary>
+        /// Returns the <see cref="HHotel"/> associated with the specified value.
+        /// </summary>
+        /// <param name="value">The string representation of the <see cref="HHotel"/> object.</param>
+        /// <returns></returns>
+        public static HHotel ToHotel(string value)
+        {
+            if (value.Contains("game-")) value = value.GetChild("game-", '.');
+            else if (value.Contains("habbo")) value = value.GetChild("habbo.");
+            value = value.Replace(".", string.Empty);
+
+            if (value == "us") value = "com";
+            if (value == "br" || value == "tr") value = "com" + value;
+
+            HHotel hotel;
+            return Enum.TryParse(value, true, out hotel) ? hotel : (HHotel)(-1);
+        }
+        /// <summary>
+        /// Returns the <see cref="HGender"/> associated with the specified value.
+        /// </summary>
+        /// <param name="gender">The string representation of the <see cref="HGender"/> object.</param>
+        /// <returns></returns>
+        public static HGender ToGender(string gender)
+        {
+            return (HGender)gender.ToUpper()[0];
         }
 
         /// <summary>
