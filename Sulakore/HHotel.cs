@@ -1,7 +1,9 @@
-﻿/* GitHub(Source): https://GitHub.com/ArachisH
+﻿/* Copyright
+
+    GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel desktop applications.
-    Copyright (C) 2015  Arachis
+    Copyright (C) 2015 Arachis
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +18,8 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+    See License.txt in the project root for license information.
 */
 
 namespace Sulakore
@@ -26,25 +30,25 @@ namespace Sulakore
     public enum HHotel
     {
         /// <summary>
+        /// Represents an unidentified hotel.
+        /// </summary>
+        Unknown = 0,
+        /// <summary>
         /// Represents http://www.Habbo.com (Global).
         /// </summary>
-        Com = 0,
+        Com = 1,
         /// <summary>
         /// Represents http://www.Habbo.com.br (Brazil).
         /// </summary>
-        ComBr = 1,
+        ComBr = 2,
         /// <summary>
         /// Represents http://www.Habbo.com.tr (Turkey).
         /// </summary>
-        ComTr = 2,
+        ComTr = 3,
         /// <summary>
         /// Represents http://www.Habbo.de (Germany).
         /// </summary>
-        De = 3,
-        /// <summary>
-        /// Represents http://www.Habbo.dk (Denmark).
-        /// </summary>
-        Dk = 4,
+        De = 4,
         /// <summary>
         /// Represents http://www.Habbo.es (Spain).
         /// </summary>
@@ -64,14 +68,6 @@ namespace Sulakore
         /// <summary>
         /// Represents http://www.Habbo.nl (Netherlands).
         /// </summary>
-        Nl = 9,
-        /// <summary>
-        /// Represents http://www.Habbo.no (Norway).
-        /// </summary>
-        No = 10,
-        /// <summary>
-        /// Represents http://www.Habbo.se (Sweden).
-        /// </summary>
-        Se = 11
+        Nl = 9
     }
 }
