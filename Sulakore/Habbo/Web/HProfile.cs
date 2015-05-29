@@ -1,7 +1,9 @@
-﻿/* GitHub(Source): https://GitHub.com/ArachisH
+﻿/* Copyright
+
+    GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel desktop applications.
-    Copyright (C) 2015  Arachis
+    Copyright (C) 2015 Arachis
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +18,8 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+    See License.txt in the project root for license information.
 */
 
 using System.IO;
@@ -33,38 +37,23 @@ namespace Sulakore.Habbo.Web
 
         [DataMember(Name = "user")]
         private readonly HUser _user;
-        public HUser User
-        {
-            get { return _user; }
-        }
+        public HUser User => _user;
 
         [DataMember(Name = "friends")]
         private readonly IList<HFriend> _friends;
-        public IList<HFriend> Friends
-        {
-            get { return _friends; }
-        }
+        public IList<HFriend> Friends => _friends;
 
         [DataMember(Name = "groups")]
         private readonly IList<HGroup> _groups;
-        public IList<HGroup> Groups
-        {
-            get { return _groups; }
-        }
+        public IList<HGroup> Groups => _groups;
 
         [DataMember(Name = "rooms")]
         private readonly IList<HRoom> _rooms;
-        public IList<HRoom> Rooms
-        {
-            get { return _rooms; }
-        }
+        public IList<HRoom> Rooms => _rooms;
 
         [DataMember(Name = "badges")]
         private readonly IList<HBadge> _badges;
-        public IList<HBadge> Badges
-        {
-            get { return _badges; }
-        }
+        public IList<HBadge> Badges => _badges;
 
         static HProfile()
         {
@@ -79,10 +68,8 @@ namespace Sulakore.Habbo.Web
             _badges = new List<HBadge>(0);
         }
 
-        public static HProfile Load(string path)
-        {
-            return Create(File.ReadAllText(path));
-        }
+        public static HProfile Load(string path) =>
+            Create(File.ReadAllText(path));
         public static HProfile Create(string json)
         {
             byte[] data = Encoding.UTF8.GetBytes(json);
