@@ -25,7 +25,7 @@
 namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies a set of gestures/actions a player can perform in-game.
+    /// Specifies a set of gestures a player can perform in-game.
     /// </summary>
     public enum HGesture
     {
