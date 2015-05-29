@@ -31,7 +31,7 @@ namespace Sulakore.Habbo
     /// <summary>
     /// Represents an in-game object that probably has feelings.
     /// </summary>
-    public class HSentientData
+    public class HSentient
     {
         /// <summary>
         /// Gets the id of the sentient object.
@@ -67,7 +67,7 @@ namespace Sulakore.Habbo
         public string FavoriteGroup { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HSentientData"/> class with the specified sentient object data.
+        /// Initializes a new instance of the <see cref="HSentient"/> class with the specified sentient object data.
         /// </summary>
         /// <param name="id">The id of the sentient object.</param>
         /// <param name="index">The room index value of the sentient object.</param>
@@ -77,7 +77,7 @@ namespace Sulakore.Habbo
         /// <param name="gender">The <see cref="HGender"/> of the sentient object.</param>
         /// <param name="figureId">The figure id of the sentient object.</param>
         /// <param name="favoriteGroup">The favorite group badge of the sentient object.</param>
-        public HSentientData(int id, int index, string name, HPoint tile,
+        public HSentient(int id, int index, string name, HPoint tile,
             string motto, HGender gender, string figureId, string favoriteGroup)
         {
             Id = id;
@@ -95,13 +95,13 @@ namespace Sulakore.Habbo
         /// </summary>
         /// <param name="packet">The <see cref="HMessage"/> that contains the sentient object data to parse.</param>
         /// <returns></returns>
-        public static IReadOnlyList<HSentientData> Parse(HMessage packet)
+        public static IReadOnlyList<HSentient> Parse(HMessage packet)
         {
             int position = packet.Position;
-            int sentientDataCount = packet.ReadInteger();
-            var sentientDataList = new List<HSentientData>(sentientDataCount);
+            int sentientCount = packet.ReadInteger();
+            var sentientList = new List<HSentient>(sentientCount);
 
-            for (int i = 0; i < sentientDataList.Capacity; i++)
+            for (int i = 0; i < sentientList.Capacity; i++)
             {
                 int id = packet.ReadInteger();
                 string name = packet.ReadString();
@@ -162,22 +162,23 @@ namespace Sulakore.Habbo
                 }
                 #endregion
 
-                var sentientData = new HSentientData(id, index, name,
+                var sentient = new HSentient(id, index, name,
                     new HPoint(x, y, z), motto, gender, figureId, favoriteGroup);
 
-                sentientDataList.Add(sentientData);
+                sentientList.Add(sentient);
             }
 
             packet.Position = position;
-            return sentientDataList;
+            return sentientList;
         }
 
         /// <summary>
-        /// Converts this <see cref="HSentientData"/> to a human-readable string.
+        /// Converts this <see cref="HSentient"/> to a human-readable string.
         /// </summary>
         /// <returns></returns>
         public override string ToString() =>
-            $"Id: {Id}, Index: {Index}, Name: {Name}, Tile: {Tile.ToString()}, " +
-            $"Motto: {Motto}, Gender: {Gender}, FigureId: {FigureId}, FavoriteGroup: {FavoriteGroup}";
+            $"{nameof(Id)}: {Id}, {nameof(Index)}: {Index}, {nameof(Name)}: {Name}, " +
+            $"{nameof(Tile)}: {Tile}, {nameof(Motto)}: {Motto}, {nameof(Gender)}: {Gender}, " +
+            $"{nameof(FigureId)}: {FigureId}, {nameof(FavoriteGroup)}: {FavoriteGroup}";
     }
 }
