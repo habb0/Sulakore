@@ -225,10 +225,8 @@ namespace Sulakore
         /// </summary>
         /// <param name="gender">The string representation of the <see cref="HGender"/> object.</param>
         /// <returns></returns>
-        public static HGender ToGender(string gender)
-        {
-            return (HGender)gender.ToUpper()[0];
-        }
+        public static HGender ToGender(string gender) => (HGender)gender.ToUpper()[0];
+
 
         /// <summary>
         /// Returns a new string that begins from where the parent ended in the source.
@@ -236,10 +234,9 @@ namespace Sulakore
         /// <param name="source">The string that is to be processed.</param>
         /// <param name="parent">The string that determines where the substring operation will take place.</param>
         /// <returns></returns>
-        public static string GetChild(this string source, string parent)
-        {
-            return source.Substring(source.IndexOf(parent, StringComparison.OrdinalIgnoreCase) + parent.Length).Trim();
-        }
+        public static string GetChild(this string source, string parent) => 
+            source.Substring(source.IndexOf(parent, StringComparison.OrdinalIgnoreCase) + parent.Length).Trim();
+
         /// <summary>
         /// Returns a new string that is in between the parent and the delimiter in the source.
         /// </summary>
@@ -247,10 +244,9 @@ namespace Sulakore
         /// <param name="parent">The string that determines where the substring operation will take place.</param>
         /// <param name="delimiter">The Unicode character that will be used to delimit the substring.</param>
         /// <returns></returns>
-        public static string GetChild(this string source, string parent, char delimiter)
-        {
-            return GetChilds(source, parent, delimiter, false)[0].Trim();
-        }
+        public static string GetChild(this string source, string parent, char delimiter) =>
+            GetChilds(source, parent, delimiter, false)[0].Trim();
+
         /// <summary>Returns a string array that contains the substrings in the source that are delimited after the parent.
         /// </summary>
         /// <param name="source">The string that is to be processed.</param>
@@ -260,8 +256,8 @@ namespace Sulakore
         /// <returns></returns>
         public static string[] GetChilds(this string source, string parent, char delimiter, bool withNested = true)
         {
-            char[] delis = withNested ? (parent + delimiter).ToCharArray() : new[] { delimiter };
-            return GetChild(source, parent).Split(delis, StringSplitOptions.RemoveEmptyEntries);
+            char[] delimiters = (withNested ? (parent + delimiter).ToCharArray() : new[] { delimiter });
+            return GetChild(source, parent).Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }
