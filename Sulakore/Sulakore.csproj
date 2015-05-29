@@ -45,11 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\Eavesdropper.cs" />
-    <Compile Include="Communication\Event Args\DataToEventArgs.cs" />
-    <Compile Include="Communication\Event Args\EavesdropperRequestEventArgs.cs" />
-    <Compile Include="Communication\Event Args\EavesdropperResponseEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Incoming Event Args\BadgesLoadEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\FurnitureLoadEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\SentienceActionEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerUpdateEventArgs.cs" />
@@ -59,47 +54,7 @@
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerGestureEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerKickHostEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\FurnitureMoveEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostBanEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateClothesEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateMottoEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateStanceEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostClickPlayerEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostDanceEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostGestureEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostKickEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostMoveFurnitureEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostMuteEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostSignEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostExitEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostNavigateEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostSayEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostMessageEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostShoutEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostTradeEventArgs.cs" />
-    <Compile Include="Communication\Event Args\Outgoing Event Args\HostWalkEventArgs.cs" />
-    <Compile Include="Communication\HConnection.cs" />
-    <Compile Include="Communication\HFilters.cs" />
-    <Compile Include="Communication\HTriggers.cs" />
     <Compile Include="Communication\IHabboEvent.cs" />
-    <Compile Include="Communication\IHConnection.cs" />
-    <Compile Include="Components\SKoreButton.cs" />
-    <Compile Include="Components\SKoreClient.cs" />
-    <Compile Include="Components\SKoreConstructer.cs" />
-    <Compile Include="Components\SKoreExtensionView.cs" />
-    <Compile Include="Components\SKoreForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Components\SKoreLabel.cs" />
-    <Compile Include="Components\SKoreListView.cs" />
-    <Compile Include="Components\SKoreScheduler.cs" />
-    <Compile Include="Components\SKoreTabControl.cs" />
-    <Compile Include="Components\Types\Event Args\HScheduleTriggeredEventArgs.cs" />
-    <Compile Include="Extensions\Contractor.cs" />
-    <Compile Include="Extensions\Enums\ExtensionPriority.cs" />
-    <Compile Include="Extensions\Event Args\InvokedEventArgs.cs" />
-    <Compile Include="Extensions\ExtensionBase.cs" />
-    <Compile Include="Extensions\IContractor.cs" />
-    <Compile Include="Extensions\IExtension.cs" />
     <Compile Include="Habbo\Enums\HAction.cs" />
     <Compile Include="Habbo\Enums\HBan.cs" />
     <Compile Include="Habbo\Enums\HDance.cs" />
@@ -111,42 +66,37 @@
     <Compile Include="Habbo\Enums\HSpeech.cs" />
     <Compile Include="Habbo\Enums\HStance.cs" />
     <Compile Include="Habbo\Enums\HTheme.cs" />
-    <Compile Include="Habbo\HBadge.cs" />
-    <Compile Include="Habbo\Headers\Incoming.cs" />
-    <Compile Include="Habbo\Headers\Outgoing.cs" />
     <Compile Include="Habbo\HFurniture.cs" />
     <Compile Include="Habbo\HSentientAction.cs" />
     <Compile Include="Habbo\HSentient.cs" />
     <Compile Include="Habbo\HPoint.cs" />
     <Compile Include="Habbo\Protocol\Encoders\Ancient.cs" />
     <Compile Include="Habbo\Protocol\Encoders\BigEndian.cs" />
-    <Compile Include="Habbo\Protocol\Encryption\BigInteger.cs" />
-    <Compile Include="Habbo\Protocol\Encryption\Enums\PKCS1PadType.cs" />
-    <Compile Include="Habbo\Protocol\Encryption\HKeyExchange.cs" />
-    <Compile Include="Habbo\Protocol\Encryption\Rc4.cs" />
-    <Compile Include="Habbo\Protocol\Encryption\RsaKey.cs" />
     <Compile Include="Habbo\Protocol\Enums\HDestination.cs" />
     <Compile Include="Habbo\Protocol\HMessage.cs" />
     <Compile Include="Habbo\Protocol\IHMessage.cs" />
-    <Compile Include="Components\Types\HSchedule.cs" />
     <Compile Include="Habbo\Web\HBadge.cs" />
     <Compile Include="Habbo\Web\HFriend.cs" />
-    <Compile Include="Habbo\Web\HGameData.cs" />
     <Compile Include="Habbo\Web\HGroup.cs" />
     <Compile Include="Habbo\Web\HProfile.cs" />
     <Compile Include="Habbo\Web\HRoom.cs" />
-    <Compile Include="Habbo\Web\HSession.cs" />
     <Compile Include="Habbo\Web\HUser.cs" />
     <Compile Include="HHotel.cs" />
-    <Compile Include="Internals\NativeMethods.cs" />
-    <Compile Include="Internals\TcpListenerEx.cs" />
     <Compile Include="SKore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Communication\Event Args\Outgoing Event Args\" />
+    <Folder Include="Components\Types\Event Args\" />
+    <Folder Include="Extensions\Enums\" />
+    <Folder Include="Extensions\Event Args\" />
+    <Folder Include="Habbo\Headers\" />
+    <Folder Include="Habbo\Protocol\Encryption\" />
+    <Folder Include="Internals\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

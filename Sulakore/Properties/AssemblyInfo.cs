@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Sulakore")]
-[assembly: AssemblyDescription(".NET library for created Habbo Hotel related desktop applications.")]
+[assembly: AssemblyDescription(".NET library for creating Habbo Hotel related desktop applications.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Arachis")]
 [assembly: AssemblyProduct("Sulakore")]
