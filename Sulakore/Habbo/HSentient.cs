@@ -46,17 +46,9 @@ namespace Sulakore.Habbo
         /// </summary>
         public string Name { get; }
         /// <summary>
-        /// Gets the <see cref="HPoint"/> of the sentient object.
-        /// </summary>
-        public HPoint Tile { get; }
-        /// <summary>
         /// Gets the motto of the sentient object.
         /// </summary>
         public string Motto { get; }
-        /// <summary>
-        /// Gets the gender of the sentient object.
-        /// </summary>
-        public HGender Gender { get; }
         /// <summary>
         /// Gets the figure id of the sentient object.
         /// </summary>
@@ -65,6 +57,15 @@ namespace Sulakore.Habbo
         /// Gets the favorite group badge of the sentient object.
         /// </summary>
         public string FavoriteGroup { get; }
+
+        /// <summary>
+        /// Gets the <see cref="HPoint"/> of the sentient object.
+        /// </summary>
+        public HPoint Tile { get; }
+        /// <summary>
+        /// Gets the gender of the sentient object.
+        /// </summary>
+        public HGender Gender { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HSentient"/> class with the specified sentient object data.
