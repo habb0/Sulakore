@@ -72,6 +72,8 @@
     <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateMottoEventArgs.cs" />
     <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateStanceEventArgs.cs" />
     <Compile Include="Communication\Event Args\Outgoing Event Args\HostWalkEventArgs.cs" />
+    <Compile Include="Communication\HFilters.cs" />
+    <Compile Include="Communication\HTriggers.cs" />
     <Compile Include="Communication\IHabboEvent.cs" />
     <Compile Include="Habbo\Enums\HAction.cs" />
     <Compile Include="Habbo\Enums\HBan.cs" />
@@ -84,6 +86,8 @@
     <Compile Include="Habbo\Enums\HSpeech.cs" />
     <Compile Include="Habbo\Enums\HStance.cs" />
     <Compile Include="Habbo\Enums\HTheme.cs" />
+    <Compile Include="Habbo\Headers\Incoming.cs" />
+    <Compile Include="Habbo\Headers\Outgoing.cs" />
     <Compile Include="Habbo\HFurniture.cs" />
     <Compile Include="Habbo\HSentientAction.cs" />
     <Compile Include="Habbo\HSentient.cs" />
@@ -111,7 +115,6 @@
     <Folder Include="Components\Types\Event Args\" />
     <Folder Include="Extensions\Enums\" />
     <Folder Include="Extensions\Event Args\" />
-    <Folder Include="Habbo\Headers\" />
     <Folder Include="Habbo\Protocol\Encryption\" />
     <Folder Include="Internals\" />
   </ItemGroup>
