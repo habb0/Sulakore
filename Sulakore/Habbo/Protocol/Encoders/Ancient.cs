@@ -26,7 +26,10 @@ namespace Sulakore.Habbo.Protocol.Encoders
 {
     public static class Ancient
     {
-        public static byte[] CypherShort(ushort value) => new[] { (byte)(64 + (value >> 6 & 63)), (byte)(64 + (value & 63)) };
+        public static byte[] CypherShort(ushort value)
+        {
+            return new[] { (byte)(64 + (value >> 6 & 63)), (byte)(64 + (value & 63)) };
+        }
         public static byte[] CypherShort(byte[] source, int offset, ushort value)
         {
             offset = offset > source.Length ? source.Length : offset < 0 ? 0 : offset;
@@ -44,10 +47,23 @@ namespace Sulakore.Habbo.Protocol.Encoders
             }
             return data;
         }
-        public static ushort DecypherShort(byte[] data) => DecypherShort(data, 0);
-        public static ushort DecypherShort(string encoded) => DecypherShort(new[] { (byte)encoded[0], (byte)encoded[1] }, 0);
-        public static ushort DecypherShort(byte[] data, int offset) => (ushort)(data.Length > 1 ? (data[offset + 1] - 64 + (data[offset] - 64) * 64) : 0);
-        public static ushort DecypherShort(byte first, byte second) => DecypherShort(new[] { first, second }, 0);
+
+        public static ushort DecypherShort(byte[] data)
+        {
+            return DecypherShort(data, 0);
+        }
+        public static ushort DecypherShort(string encoded)
+        {
+            return DecypherShort(new[] { (byte)encoded[0], (byte)encoded[1] }, 0);
+        }
+        public static ushort DecypherShort(byte[] data, int offset)
+        {
+            return (ushort)(data.Length > 1 ? (data[offset + 1] - 64 + (data[offset] - 64) * 64) : 0);
+        }
+        public static ushort DecypherShort(byte first, byte second)
+        {
+            return DecypherShort(new[] { first, second }, 0);
+        }
 
         public static byte[] CypherInt(int value)
         {
@@ -84,7 +100,11 @@ namespace Sulakore.Habbo.Protocol.Encoders
             }
             return data;
         }
-        public static int DecypherInt(byte[] data) => DecypherInt(data, 0);
+
+        public static int DecypherInt(byte[] data)
+        {
+            return DecypherInt(data, 0);
+        }
         public static int DecypherInt(string encoded)
         {
             var data = new byte[encoded.Length];

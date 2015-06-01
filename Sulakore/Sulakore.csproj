@@ -54,6 +54,24 @@
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerGestureEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerKickHostEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\FurnitureMoveEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostBanPlayerEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostClickPlayerEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostDanceEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostExitRoomEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostGestureEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostKickPlayerEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostPrivateMessageEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostMoveFurnitureEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostMutePlayerEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostNavigateRoomEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostSayEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostShoutEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostRaiseSignEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostTradeEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateClothesEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateMottoEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostUpdateStanceEventArgs.cs" />
+    <Compile Include="Communication\Event Args\Outgoing Event Args\HostWalkEventArgs.cs" />
     <Compile Include="Communication\IHabboEvent.cs" />
     <Compile Include="Habbo\Enums\HAction.cs" />
     <Compile Include="Habbo\Enums\HBan.cs" />
@@ -90,7 +108,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Communication\Event Args\Outgoing Event Args\" />
     <Folder Include="Components\Types\Event Args\" />
     <Folder Include="Extensions\Enums\" />
     <Folder Include="Extensions\Event Args\" />
