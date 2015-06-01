@@ -74,7 +74,8 @@
     <Compile Include="Habbo\Protocol\Encoders\BigEndian.cs" />
     <Compile Include="Habbo\Protocol\Enums\HDestination.cs" />
     <Compile Include="Habbo\Protocol\HMessage.cs" />
-    <Compile Include="Habbo\Protocol\IHMessage.cs" />
+    <Compile Include="Habbo\Protocol\HPacketBase.cs" />
+    <Compile Include="Habbo\Protocol\IHPacket.cs" />
     <Compile Include="Habbo\Web\HBadge.cs" />
     <Compile Include="Habbo\Web\HFriend.cs" />
     <Compile Include="Habbo\Web\HGroup.cs" />

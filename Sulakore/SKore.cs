@@ -2,7 +2,7 @@
 
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
-    .NET library for creating Habbo Hotel desktop applications.
+    .NET library for creating Habbo Hotel related desktop applications.
     Copyright (C) 2015 Arachis
 
     This program is free software; you can redistribute it and/or modify
@@ -226,8 +226,7 @@ namespace Sulakore
         /// <param name="gender">The string representation of the <see cref="HGender"/> object.</param>
         /// <returns></returns>
         public static HGender ToGender(string gender) => (HGender)gender.ToUpper()[0];
-
-
+        
         /// <summary>
         /// Returns a new string that begins from where the parent ended in the source.
         /// </summary>
