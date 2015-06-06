@@ -23,17 +23,15 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class FurnitureDropEventArgs : EventArgs, IHabboEvent
+    public class FurnitureDropEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Client;
-
         public int Id { get; }
         public int TypeId { get; }
         public int OwnerId { get; }
@@ -43,32 +41,43 @@ namespace Sulakore.Communication
         public HDirection Direction { get; }
 
         public FurnitureDropEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public FurnitureDropEventArgs(int step, HMessage packet)
+            : base(null, step, packet)
+        { }
+        public FurnitureDropEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public FurnitureDropEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
+            Id = Packet.ReadInteger();
+            TypeId = Packet.ReadInteger();
 
-            Id = packet.ReadInteger();
-            TypeId = packet.ReadInteger();
+            int x = Packet.ReadInteger();
+            int y = Packet.ReadInteger();
 
-            int x = packet.ReadInteger();
-            int y = packet.ReadInteger();
+            Direction = (HDirection)Packet.ReadInteger();
+            Tile = new HPoint(x, y, double.Parse(Packet.ReadString()));
 
-            Direction = (HDirection)packet.ReadInteger();
-            Tile = new HPoint(x, y, double.Parse(packet.ReadString()));
+            Packet.ReadString();
+            Packet.ReadInteger();
+            Packet.ReadInteger();
+            Packet.ReadString();
 
-            packet.ReadString();
-            packet.ReadInteger();
-            packet.ReadInteger();
-            packet.ReadString();
+            IsRental = (Packet.ReadInteger() != 1);
+            Packet.ReadInteger();
 
-            IsRental = (packet.ReadInteger() != 1);
-            packet.ReadInteger();
-
-            OwnerId = packet.ReadInteger();
-            OwnerName = packet.ReadString();
+            OwnerId = Packet.ReadInteger();
+            OwnerName = Packet.ReadString();
         }
+        public FurnitureDropEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : base(continuation, step, data, destination)
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Id)}: {Id}, {nameof(TypeId)}: {TypeId}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Id)}: {Id}, {nameof(TypeId)}: {TypeId}, " +
             $"{nameof(Tile)}: {Tile}, {nameof(Direction)}: {Direction}, {nameof(IsRental)}: {IsRental}, " +
             $"{nameof(OwnerId)}: {OwnerId}, {nameof(OwnerName)}: {OwnerName}";
     }
