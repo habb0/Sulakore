@@ -44,7 +44,7 @@ namespace Sulakore.Communication
             : this(null, -1, packet)
         { }
         public FurnitureDropEventArgs(int step, HMessage packet)
-            : base(null, step, packet)
+            : this(null, step, packet)
         { }
         public FurnitureDropEventArgs(int step, byte[] data, HDestination destination)
             : this(null, step, new HMessage(data, destination))
@@ -73,7 +73,7 @@ namespace Sulakore.Communication
             OwnerName = Packet.ReadString();
         }
         public FurnitureDropEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
-            : base(continuation, step, data, destination)
+            : this(continuation, step, new HMessage(data, destination))
         { }
 
         public override string ToString() =>

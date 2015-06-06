@@ -23,35 +23,41 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostMoveFurnitureEventArgs : EventArgs, IHabboEvent
+    public class HostMoveFurnitureEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int Id { get; }
         public HPoint Tile { get; }
         public HDirection Direction { get; }
 
         public HostMoveFurnitureEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostMoveFurnitureEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostMoveFurnitureEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostMoveFurnitureEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Id = packet.ReadInteger(0);
-
-            Tile = new HPoint(packet.ReadInteger(4),
-                packet.ReadInteger(8));
-
-            Direction = (HDirection)packet.ReadInteger(12);
+            Id = packet.ReadInteger();
+            Tile = new HPoint(packet.ReadInteger(), packet.ReadInteger());
+            Direction = (HDirection)packet.ReadInteger();
         }
+        public HostMoveFurnitureEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Id)}: {Id}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Id)}: {Id}, " +
             $"{nameof(Tile)}: {Tile}, {nameof(Direction)}: {Direction}";
     }
 }

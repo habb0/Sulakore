@@ -23,17 +23,15 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class FurnitureMoveEventArgs : EventArgs, IHabboEvent
+    public class FurnitureMoveEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Client;
-
         public int Id { get; }
         public int TypeId { get; }
         public int OwnerId { get; }
@@ -41,21 +39,35 @@ namespace Sulakore.Communication
         public HDirection Direction { get; }
 
         public FurnitureMoveEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public FurnitureMoveEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public FurnitureMoveEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public FurnitureMoveEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
+            Id = packet.ReadInteger();
+            TypeId = packet.ReadInteger();
 
-            Id = packet.ReadInteger(0);
-            TypeId = packet.ReadInteger(4);
+            int x = packet.ReadInteger();
+            int y = packet.ReadInteger();
 
-            Tile = new HPoint(packet.ReadInteger(8),
-                packet.ReadInteger(12), double.Parse(packet.ReadString(20)));
+            Direction = (HDirection)packet.ReadInteger();
+            Tile = new HPoint(x, y, double.Parse(packet.ReadString()));
 
-            Direction = (HDirection)packet.ReadInteger(16);
+            // TODO: Find the chunks before OwnerId and read them.
             OwnerId = packet.ReadInteger(packet.Length - 6);
         }
+        public FurnitureMoveEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Id)}: {Id}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Id)}: {Id}, " +
             $"{nameof(OwnerId)}: {OwnerId}, {nameof(Tile)}: {Tile}, {nameof(Direction)}: {Direction}";
     }
 }

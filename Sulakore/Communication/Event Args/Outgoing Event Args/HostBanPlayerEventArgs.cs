@@ -23,32 +23,41 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostBanPlayerEventArgs : EventArgs, IHabboEvent
+    public class HostBanPlayerEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int Id { get; }
         public HBan Ban { get; }
         public int RoomId { get; }
 
         public HostBanPlayerEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostBanPlayerEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostBanPlayerEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostBanPlayerEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Id = packet.ReadInteger(0);
-            RoomId = packet.ReadInteger(4);
-            Ban = SKore.ToBan(packet.ReadString(8));
+            Id = packet.ReadInteger();
+            RoomId = packet.ReadInteger();
+            Ban = SKore.ToBan(packet.ReadString());
         }
+        public HostBanPlayerEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Id)}: {Id}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Id)}: {Id}, " +
             $"{nameof(RoomId)}: {RoomId}, {nameof(Ban)}: {Ban}";
     }
 }

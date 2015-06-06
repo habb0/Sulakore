@@ -23,27 +23,36 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostRaiseSignEventArgs : EventArgs, IHabboEvent
+    public class HostRaiseSignEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HSign Sign { get; }
 
         public HostRaiseSignEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostRaiseSignEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostRaiseSignEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostRaiseSignEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Sign = (HSign)packet.ReadInteger(0);
+            Sign = (HSign)packet.ReadInteger();
         }
+        public HostRaiseSignEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Sign)}: {Sign}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Sign)}: {Sign}";
     }
 }

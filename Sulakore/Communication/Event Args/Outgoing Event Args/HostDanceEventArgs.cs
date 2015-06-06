@@ -23,27 +23,36 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostDanceEventArgs : EventArgs, IHabboEvent
+    public class HostDanceEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HDance Dance { get; }
 
         public HostDanceEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostDanceEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostDanceEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostDanceEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Dance = (HDance)packet.ReadInteger(0);
+            Dance = (HDance)packet.ReadInteger();
         }
+        public HostDanceEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Dance)}: {Dance}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Dance)}: {Dance}";
     }
 }

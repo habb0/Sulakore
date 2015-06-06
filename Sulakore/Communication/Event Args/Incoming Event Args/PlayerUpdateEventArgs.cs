@@ -23,37 +23,43 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class PlayerUpdateEventArgs : EventArgs, IHabboEvent
+    public class PlayerUpdateEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Client;
-
         public int Index { get; }
         public string Motto { get; }
         public HGender Gender { get; }
         public string FigureId { get; }
 
         public PlayerUpdateEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public PlayerUpdateEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public PlayerUpdateEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public PlayerUpdateEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-            int position = packet.Position;
-
             Index = packet.ReadInteger();
             FigureId = packet.ReadString();
             Gender = SKore.ToGender(packet.ReadString());
             Motto = packet.ReadString();
-
-            packet.Position = position;
         }
+        public PlayerUpdateEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Index)}: {Index}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Index)}: {Index}, " +
             $"{nameof(FigureId)}: {FigureId}, {nameof(Gender)}: {Gender}, {nameof(Motto)}: {Motto}";
     }
 }

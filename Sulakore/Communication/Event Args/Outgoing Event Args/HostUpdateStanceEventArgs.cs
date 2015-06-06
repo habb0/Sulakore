@@ -23,27 +23,36 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostUpdateStanceEventArgs : EventArgs, IHabboEvent
+    public class HostUpdateStanceEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HStance Stance { get; }
 
         public HostUpdateStanceEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostUpdateStanceEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostUpdateStanceEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostUpdateStanceEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Stance = (HStance)packet.ReadInteger(0);
+            Stance = (HStance)packet.ReadInteger();
         }
+        public HostUpdateStanceEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Stance)}: {Stance}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Stance)}: {Stance}";
     }
 }

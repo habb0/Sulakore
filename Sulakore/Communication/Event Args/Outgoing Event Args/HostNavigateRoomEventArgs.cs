@@ -23,29 +23,38 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostNavigateRoomEventArgs : EventArgs, IHabboEvent
+    public class HostNavigateRoomEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int RoomId { get; }
-        public string Passcode { get; }
+        public string Password { get; }
 
         public HostNavigateRoomEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostNavigateRoomEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostNavigateRoomEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostNavigateRoomEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            RoomId = packet.ReadInteger(0);
-            Passcode = packet.ReadString(4);
+            RoomId = packet.ReadInteger();
+            Password = packet.ReadString();
         }
+        public HostNavigateRoomEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, " +
-            $"{nameof(RoomId)}: {RoomId}, {nameof(Passcode)}: {Passcode}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, " +
+            $"{nameof(RoomId)}: {RoomId}, {nameof(Password)}: {Password}";
     }
 }

@@ -24,29 +24,38 @@
 
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class FurnitureLoadEventArgs : EventArgs, IReadOnlyList<HFurniture>, IHabboEvent
+    public class FurnitureLoadEventArgs : InterceptedEventArgs, IReadOnlyList<HFurniture>
     {
         private readonly IReadOnlyList<HFurniture> _furnitureLoadList;
-
-        public ushort Header { get; }
+        
         public int Count => _furnitureLoadList.Count;
-        public HDestination Destination => HDestination.Client;
         public HFurniture this[int index] => _furnitureLoadList[index];
 
         public FurnitureLoadEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public FurnitureLoadEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public FurnitureLoadEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public FurnitureLoadEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
             _furnitureLoadList = HFurniture.Parse(packet);
         }
+        public FurnitureLoadEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public IEnumerator<HFurniture> GetEnumerator() =>
             _furnitureLoadList.GetEnumerator();
@@ -55,6 +64,6 @@ namespace Sulakore.Communication
             ((IEnumerable)_furnitureLoadList).GetEnumerator();
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Count)}: {Count}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Count)}: {Count}";
     }
 }

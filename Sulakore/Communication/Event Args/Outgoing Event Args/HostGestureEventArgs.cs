@@ -23,27 +23,36 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostGestureEventArgs : EventArgs, IHabboEvent
+    public class HostGestureEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HGesture Gesture { get; }
 
         public HostGestureEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostGestureEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostGestureEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostGestureEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Gesture = (HGesture)packet.ReadInteger(0);
+            Gesture = (HGesture)packet.ReadInteger();
         }
+        public HostGestureEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Gesture)}: {Gesture}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Gesture)}: {Gesture}";
     }
 }

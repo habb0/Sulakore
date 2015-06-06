@@ -23,30 +23,41 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostShoutEventArgs : EventArgs, IHabboEvent
+    public class HostShoutEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HTheme Theme { get; }
         public string Message { get; }
 
         public HostShoutEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostShoutEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostShoutEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostShoutEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
+            Message = packet.ReadString();
 
-            Message = packet.ReadString(0);
+            // TODO: Find the chunks before OwnerId and read them.
             Theme = (HTheme)packet.ReadInteger(packet.Length - 6);
         }
+        public HostShoutEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, " +
             $"{nameof(Message)}: {Message}, {nameof(Theme)}: {Theme}";
     }
 }

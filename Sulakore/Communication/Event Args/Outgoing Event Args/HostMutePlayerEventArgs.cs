@@ -23,31 +23,40 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostMutePlayerEventArgs : EventArgs, IHabboEvent
+    public class HostMutePlayerEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int Id { get; }
         public int RoomId { get; }
         public int Minutes { get; }
 
         public HostMutePlayerEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostMutePlayerEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostMutePlayerEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostMutePlayerEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Id = packet.ReadInteger(0);
-            RoomId = packet.ReadInteger(4);
-            Minutes = packet.ReadInteger(8);
+            Id = packet.ReadInteger();
+            RoomId = packet.ReadInteger();
+            Minutes = packet.ReadInteger();
         }
+        public HostMutePlayerEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Id)}: {Id}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Id)}: {Id}, " +
             $"{nameof(RoomId)}: {RoomId}, {nameof(Minutes)}: {Minutes}";
     }
 }

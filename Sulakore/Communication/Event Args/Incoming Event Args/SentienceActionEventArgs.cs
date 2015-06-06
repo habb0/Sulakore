@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Sulakore.Habbo;
@@ -31,21 +32,30 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class SentienceActionEventArgs : EventArgs, IReadOnlyList<HSentientAction>, IHabboEvent
+    public class SentienceActionEventArgs : InterceptedEventArgs, IReadOnlyList<HSentientAction>
     {
         private readonly IReadOnlyList<HSentientAction> _sentienceActionList;
 
-        public ushort Header { get; }
         public int Count => _sentienceActionList.Count;
-        public HDestination Destination => HDestination.Client;
         public HSentientAction this[int index] => _sentienceActionList[index];
 
         public SentienceActionEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public SentienceActionEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public SentienceActionEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public SentienceActionEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
             _sentienceActionList = HSentientAction.Parse(packet);
         }
+        public SentienceActionEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public IEnumerator<HSentientAction> GetEnumerator() =>
             _sentienceActionList.GetEnumerator();
@@ -54,6 +64,6 @@ namespace Sulakore.Communication
             ((IEnumerable)_sentienceActionList).GetEnumerator();
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Count)}: {Count}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Count)}: {Count}";
     }
 }

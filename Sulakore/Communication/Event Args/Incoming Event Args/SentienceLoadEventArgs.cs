@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Sulakore.Habbo;
@@ -31,21 +32,30 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class SentienceLoadEventArgs : EventArgs, IReadOnlyList<HSentient>, IHabboEvent
+    public class SentienceLoadEventArgs : InterceptedEventArgs, IReadOnlyList<HSentient>
     {
         private readonly IReadOnlyList<HSentient> _sentienceLoadList;
 
-        public ushort Header { get; }
         public int Count => _sentienceLoadList.Count;
-        public HDestination Destination => HDestination.Client;
         public HSentient this[int index] => _sentienceLoadList[index];
 
         public SentienceLoadEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public SentienceLoadEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public SentienceLoadEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public SentienceLoadEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
             _sentienceLoadList = HSentient.Parse(packet);
         }
+        public SentienceLoadEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public IEnumerator<HSentient> GetEnumerator() =>
             _sentienceLoadList.GetEnumerator();
@@ -54,6 +64,6 @@ namespace Sulakore.Communication
             ((IEnumerable)_sentienceLoadList).GetEnumerator();
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, {nameof(Count)}: {Count}";
+            $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Count)}: {Count}";
     }
 }

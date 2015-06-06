@@ -23,29 +23,38 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostPrivateMessageEventArgs : EventArgs, IHabboEvent
+    public class HostPrivateMessageEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int Id { get; }
         public string Message { get; }
 
         public HostPrivateMessageEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostPrivateMessageEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostPrivateMessageEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostPrivateMessageEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Id = packet.ReadInteger(0);
-            Message = packet.ReadString(4);
+            Id = packet.ReadInteger();
+            Message = packet.ReadString();
         }
+        public HostPrivateMessageEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, " +
             $"{nameof(Id)}: {Id}, {nameof(Message)}: {Message}";
     }
 }

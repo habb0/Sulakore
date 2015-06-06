@@ -23,22 +23,31 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostExitRoomEventArgs : EventArgs, IHabboEvent
+    public class HostExitRoomEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HostExitRoomEventArgs(HMessage packet)
-        {
-            Header = packet.Header;
-        }
+            : this(null, -1, packet)
+        { }
+        public HostExitRoomEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostExitRoomEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostExitRoomEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
+        { }
+        public HostExitRoomEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}";
+            $"{nameof(Packet.Header)}: {Packet.Header}";
     }
 }

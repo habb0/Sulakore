@@ -23,22 +23,31 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class PlayerKickHostEventArgs : EventArgs, IHabboEvent
+    public class PlayerKickHostEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Client;
-
         public PlayerKickHostEventArgs(HMessage packet)
-        {
-            Header = packet.Header;
-        }
+            : this(null, -1, packet)
+        { }
+        public PlayerKickHostEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public PlayerKickHostEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public PlayerKickHostEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
+        { }
+        public PlayerKickHostEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}";
+            $"{nameof(Packet.Header)}: {Packet.Header}";
     }
 }

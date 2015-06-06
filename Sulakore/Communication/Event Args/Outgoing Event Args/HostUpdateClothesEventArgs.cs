@@ -23,30 +23,39 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostUpdateClothesEventArgs : EventArgs, IHabboEvent
+    public class HostUpdateClothesEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public HGender Gender { get; }
         public string FigureId { get; }
 
         public HostUpdateClothesEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostUpdateClothesEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostUpdateClothesEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostUpdateClothesEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Gender = SKore.ToGender(packet.ReadString(0));
-            FigureId = packet.ReadString(3);
+            Gender = SKore.ToGender(packet.ReadString());
+            FigureId = packet.ReadString();
         }
+        public HostUpdateClothesEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, " +
             $"{nameof(Gender)}: {Gender}, {nameof(FigureId)}: {FigureId}";
     }
 }

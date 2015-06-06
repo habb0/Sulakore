@@ -23,32 +23,39 @@
 */
 
 using System;
+using System.Threading.Tasks;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostClickPlayerEventArgs : EventArgs, IHabboEvent
+    public class HostClickPlayerEventArgs : InterceptedEventArgs
     {
-        public ushort Header { get; }
-        public HDestination Destination => HDestination.Server;
-
         public int Id { get; }
         public HPoint Tile { get; }
 
         public HostClickPlayerEventArgs(HMessage packet)
+            : this(null, -1, packet)
+        { }
+        public HostClickPlayerEventArgs(int step, HMessage packet)
+            : this(null, step, packet)
+        { }
+        public HostClickPlayerEventArgs(int step, byte[] data, HDestination destination)
+            : this(null, step, new HMessage(data, destination))
+        { }
+        public HostClickPlayerEventArgs(Func<Task> continuation, int step, HMessage packet)
+            : base(continuation, step, packet)
         {
-            Header = packet.Header;
-
-            Id = packet.ReadInteger(0);
-
-            Tile = new HPoint(packet.ReadInteger(0),
-                packet.ReadInteger(4));
+            Id = packet.ReadInteger();
+            Tile = new HPoint(packet.ReadInteger(), packet.ReadInteger());
         }
+        public HostClickPlayerEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+            : this(continuation, step, new HMessage(data, destination))
+        { }
 
         public override string ToString() =>
-            $"{nameof(Header)}: {Header}, " +
+            $"{nameof(Packet.Header)}: {Packet.Header}, " +
             $"{nameof(Id)}: {Id}, {nameof(Tile)}: {Tile}";
     }
 }
