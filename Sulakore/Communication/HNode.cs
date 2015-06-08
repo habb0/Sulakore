@@ -121,8 +121,8 @@ namespace Sulakore.Communication
                 {
                     if (Node != null)
                     {
-                        Node?.Shutdown(SocketShutdown.Both);
-                        Node?.Close();
+                        Node.Shutdown(SocketShutdown.Both);
+                        Node.Close();
                     }
 
                     Encrypter = null;
