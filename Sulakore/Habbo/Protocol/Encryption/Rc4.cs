@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,9 +30,11 @@ namespace Sulakore.Habbo.Protocol.Encryption
     {
         private int _i, _j;
         private readonly int[] _table;
+        private readonly object _parseLock;
 
         public Rc4(byte[] key)
         {
+            _parseLock = new object();
             _table = new int[256];
 
             for (int i = 0; i < 256; i++)
@@ -44,10 +46,13 @@ namespace Sulakore.Habbo.Protocol.Encryption
 
         public void Parse(byte[] data)
         {
-            for (int k = 0; k < data.Length; k++)
+            lock(_parseLock)
             {
-                Swap(_i = (++_i % 256), _j = ((_j + _table[_i]) % 256));
-                data[k] ^= (byte)(_table[(_table[_i] + _table[_j]) % 256]);
+                for (int k = 0; k < data.Length; k++)
+                {
+                    Swap(_i = (++_i % 256), _j = ((_j + _table[_i]) % 256));
+                    data[k] ^= (byte)(_table[(_table[_i] + _table[_j]) % 256]);
+                }
             }
         }
         public byte[] SafeParse(byte[] data)
