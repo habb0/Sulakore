@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ namespace Sulakore.Habbo.Protocol
 
         public abstract int Position { get; set; }
         public abstract HDestination Destination { get; set; }
-        
-        public abstract bool IsCorrupted{ get; }
+
+        public abstract bool IsCorrupted { get; }
         public abstract int Length { get; protected set; }
         public abstract byte[] Body { get; protected set; }
 
@@ -69,12 +69,12 @@ namespace Sulakore.Habbo.Protocol
         {
             int index = Position;
             string value = ReadString(ref index);
-            Position = index;
+            Position = index + value.Length;
             return value;
         }
         public virtual string ReadString(int index) => ReadString(ref index);
         public abstract string ReadString(ref int index);
-        
+
         public virtual byte[] ReadBytes(int length)
         {
             int index = Position;
