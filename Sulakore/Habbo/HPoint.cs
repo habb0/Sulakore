@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,17 +30,17 @@ namespace Sulakore.Habbo
     public struct HPoint
     {
         /// <summary>
-        /// Gets the x-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the x-coordinate of this <see cref="HPoint"/>.
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// Gets the y-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the y-coordinate of this <see cref="HPoint"/>.
         /// </summary>
-        public int Y { get; }
+        public int Y { get; set; }
         /// <summary>
-        /// Gets the z-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the z-coordinate of this <see cref="HPoint"/>.
         /// </summary>
-        public double Z { get; }
+        public double Z { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
