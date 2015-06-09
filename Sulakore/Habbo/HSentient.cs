@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ namespace Sulakore.Habbo
         /// <param name="index">The room index value of the sentient object.</param>
         /// <param name="name">The name of the sentient object.</param>
         /// <param name="tile">The <see cref="HPoint"/> of the sentient object.</param>
-        /// <param name="motto">The motto of the sentien object.</param>
+        /// <param name="motto">The motto of the sentient object.</param>
         /// <param name="gender">The <see cref="HGender"/> of the sentient object.</param>
         /// <param name="figureId">The figure id of the sentient object.</param>
         /// <param name="favoriteGroup">The favorite group badge of the sentient object.</param>
@@ -98,7 +98,6 @@ namespace Sulakore.Habbo
         /// <returns></returns>
         public static IReadOnlyList<HSentient> Parse(HMessage packet)
         {
-            int position = packet.Position;
             int sentientCount = packet.ReadInteger();
             var sentientList = new List<HSentient>(sentientCount);
 
@@ -168,8 +167,7 @@ namespace Sulakore.Habbo
 
                 sentientList.Add(sentient);
             }
-
-            packet.Position = position;
+            
             return sentientList;
         }
 
