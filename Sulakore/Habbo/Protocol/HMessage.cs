@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -269,6 +269,68 @@ namespace Sulakore.Habbo.Protocol
             }
 
             _body.InsertRange(index, Encode(chunk));
+            Reconstruct();
+        }
+
+        public void ClearWritten()
+        {
+            if (!_beganConstructing)
+                throw new Exception("This method cannot be called on a packet that you did not begin constructing.");
+
+            if (_written.Count < 1)
+                return;
+
+            _body.Clear();
+            _written.Clear();
+
+            Reconstruct();
+        }
+        public void RemoveWritten(int index)
+        {
+            if (!_beganConstructing)
+                throw new Exception("This method cannot be called on a packet that you did not begin constructing.");
+
+            if (index < 0 || index >= _written.Count)
+                return;
+
+            _written.RemoveAt(index);
+
+            _body.Clear();
+            if (_written.Count > 0)
+                _body.AddRange(Encode(_written.ToArray()));
+
+            Reconstruct();
+        }
+        public void ReplaceWritten(int index, object chunk)
+        {
+            if (!_beganConstructing)
+                throw new Exception("This method cannot be called on a packet that you did not begin constructing.");
+
+            if (index < 0 || index >= _written.Count)
+                return;
+
+            _written[index] = chunk;
+
+            _body.Clear();
+            _body.AddRange(Encode(_written.ToArray()));
+            Reconstruct();
+        }
+        public void MoveWritten(int index, int jump, bool toRight)
+        {
+            if (!_beganConstructing)
+                throw new Exception("This method cannot be called on a packet that you did not begin constructing.");
+
+            if (jump < 1) return;
+            int newIndex = (toRight ? index + jump : index - jump);
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= _written.Count) newIndex = _written.Count - 1;
+
+            object chunk = _written[index];
+            _written.Remove(chunk);
+            _written.Insert(newIndex, chunk);
+
+            _body.Clear();
+            _body.AddRange(Encode(_written.ToArray()));
             Reconstruct();
         }
 
