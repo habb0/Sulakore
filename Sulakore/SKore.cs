@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -167,9 +168,9 @@ namespace Sulakore
         }
 
         /// <summary>
-        /// Returns the full url representation of the specified <seealso cref="HHotel"/>.
+        /// Returns the full URL representation of the specified <seealso cref="HHotel"/>.
         /// </summary>
-        /// <param name="hotel">The <seealso cref="HHotel"/> you wish to retrieve the full url from.</param>
+        /// <param name="hotel">The <seealso cref="HHotel"/> you wish to retrieve the full URL from.</param>
         /// <returns></returns>
         public static string ToUrl(this HHotel hotel)
         {
@@ -226,14 +227,26 @@ namespace Sulakore
         /// <param name="gender">The string representation of the <see cref="HGender"/> object.</param>
         /// <returns></returns>
         public static HGender ToGender(string gender) => (HGender)gender.ToUpper()[0];
-        
+
+        /// <summary>
+        /// Iterates through an event's list of subscribed delegates, and begins un-subscribing them from the event.
+        /// </summary>
+        /// <typeparam name="T">The type of the event handler.</typeparam>
+        /// <param name="eventHandler">The event handler to un-subscribe the subscribed delegates from.</param>
+        public static void Unsubscribe<T>(ref EventHandler<T> eventHandler) where T : EventArgs
+        {
+            if (eventHandler == null) return;
+            Delegate[] subscriptions = eventHandler.GetInvocationList();
+            eventHandler = subscriptions.Aggregate(eventHandler, (current, subscription) => current - (EventHandler<T>)subscription);
+        }
+
         /// <summary>
         /// Returns a new string that begins from where the parent ended in the source.
         /// </summary>
         /// <param name="source">The string that is to be processed.</param>
         /// <param name="parent">The string that determines where the substring operation will take place.</param>
         /// <returns></returns>
-        public static string GetChild(this string source, string parent) => 
+        public static string GetChild(this string source, string parent) =>
             source.Substring(source.IndexOf(parent, StringComparison.OrdinalIgnoreCase) + parent.Length).Trim();
 
         /// <summary>
