@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Sulakore")]
 [assembly: AssemblyDescription(".NET library for creating Habbo Hotel related desktop applications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Arachis")]
+[assembly: AssemblyCompany("ArachisH")]
 [assembly: AssemblyProduct("Sulakore")]
-[assembly: AssemblyCopyright("Copyright © Arachis 2015")]
+[assembly: AssemblyCopyright("Copyright © ArachisH 2015")]
 [assembly: AssemblyTrademark("The Old Nut Man")]
 [assembly: AssemblyCulture("")]
 
