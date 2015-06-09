@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ namespace Sulakore.Habbo
         /// </summary>
         Exclamation = 13,
         /// <summary>
-        /// Represents a sign with an image of a soccerball.
+        /// Represents a sign with an image of a soccer ball.
         /// </summary>
         Soccerball = 14,
         /// <summary>
@@ -98,11 +98,11 @@ namespace Sulakore.Habbo
         /// </summary>
         Smiley = 15,
         /// <summary>
-        /// Represents a sign with an image of a small redcard.
+        /// Represents a sign with an image of a small red card.
         /// </summary>
         Redcard = 16,
         /// <summary>
-        /// Represents a sign with an image of a small yellowcard.
+        /// Represents a sign with an image of a small yellow card.
         /// </summary>
         Yellowcard = 17,
         /// <summary>

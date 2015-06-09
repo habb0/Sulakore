@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,13 +22,11 @@
     See License.txt in the project root for license information.
 */
 
-using Sulakore.Habbo.Protocol;
-
-namespace Sulakore.Communication
+namespace Sulakore.Extensions
 {
-    public interface IHabboEvent
+    public enum ExtensionPriority
     {
-        ushort Header { get; }
-        HDestination Destination { get; }
+        Normal = 0,
+        High = 1
     }
 }
