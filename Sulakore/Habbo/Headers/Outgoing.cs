@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@
     See License.txt in the project root for license information.
 */
 
-using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
@@ -30,11 +29,9 @@ namespace Sulakore.Habbo.Headers
 {
     public class Outgoing
     {
-        private static readonly Type _outgoingType;
-        private static readonly DataContractJsonSerializer _serializer;
+        private static DataContractJsonSerializer _serializer;
 
-        private static readonly Outgoing _global;
-        public static Outgoing Global => _global;
+        public static Outgoing Global { get; }
 
         public const ushort CLIENT_CONNECT = 4000;
 
@@ -61,7 +58,7 @@ namespace Sulakore.Habbo.Headers
         public ushort Gesture { get; set; }
         public ushort RaiseSign { get; set; }
 
-        public ushort ExitRoom { get; set; }
+        public ushort HostExitRoom { get; set; }
         public ushort NavigateRoom { get; set; }
         public ushort MoveFurniture { get; set; }
         public ushort ShopObjectGet { get; set; }
@@ -72,9 +69,8 @@ namespace Sulakore.Habbo.Headers
 
         static Outgoing()
         {
-            _global = new Outgoing();
-            _outgoingType = typeof(Outgoing);
-            _serializer = new DataContractJsonSerializer(_outgoingType);
+            Global = new Outgoing();
+            _serializer = new DataContractJsonSerializer(typeof(Outgoing));
         }
 
         public void Save(string path)
