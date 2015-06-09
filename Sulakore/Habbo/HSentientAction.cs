@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ namespace Sulakore.Habbo
         /// <summary>
         /// Initializes a new instance of the <see cref="HSentientAction"/> class with the specified sentient object data.
         /// </summary>
-        /// <param name="isEmpowered">The value that dermines whether the sentient object has privileges.</param>
+        /// <param name="isEmpowered">The value that determines whether the sentient object has privileges.</param>
         /// <param name="index">The room index value of the sentient object.</param>
         /// <param name="tile">The <see cref="HPoint"/> of where the sentient object is currently on.</param>
         /// <param name="movingTo">The <see cref="HPoint"/> of where the sentient object will move to next.</param>
@@ -110,7 +110,6 @@ namespace Sulakore.Habbo
         /// <returns></returns>
         public static IReadOnlyList<HSentientAction> Parse(HMessage packet)
         {
-            int position = packet.Position;
             int sentientActionCount = packet.ReadInteger();
             var sentientActionList = new List<HSentientAction>(sentientActionCount);
 
@@ -182,11 +181,10 @@ namespace Sulakore.Habbo
                     }
                     #endregion
                 }
-                
+
                 var sentientAction = new HSentientAction(isEmpowered, index, new HPoint(x, y, z),
                     new HPoint(movingToX, movingToY, movingToZ), sign, stance, headDirection, bodyDirection, action);
-
-                packet.Position = position;
+                
                 sentientActionList.Add(sentientAction);
             }
             return sentientActionList;
