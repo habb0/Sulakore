@@ -3,7 +3,7 @@
     GitHub(Source): https://GitHub.com/ArachisH/Sulakore
 
     .NET library for creating Habbo Hotel related desktop applications.
-    Copyright (C) 2015 Arachis
+    Copyright (C) 2015 ArachisH
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -171,8 +171,11 @@ namespace Sulakore.Habbo.Protocol.Encryption
             DhPrime = new BigInteger(Encoding.Default.GetString(signedPrimeAsBytes), 10);
             DhGenerator = new BigInteger(Encoding.Default.GetString(signedGeneratorAsBytes), 10);
 
-            if (DhPrime <= 2) throw new Exception("Prime cannot be <= 2!\nPrime: " + DhPrime);
-            if (DhGenerator >= DhPrime) throw new Exception(string.Format("Generator cannot be >= Prime!\nPrime: {0}\nGenerator: {1}", DhPrime, DhGenerator));
+            if (DhPrime <= 2)
+                throw new Exception("Prime cannot be <= 2!\nPrime: " + DhPrime);
+
+            if (DhGenerator >= DhPrime)
+                throw new Exception($"Generator cannot be >= Prime!\nPrime: {DhPrime}\nGenerator: {DhGenerator}");
 
             DhPrivate = new BigInteger(RandomHex(30), _bitSize);
             DhPublic = DhGenerator.ModPow(DhPrivate, DhPrime);
