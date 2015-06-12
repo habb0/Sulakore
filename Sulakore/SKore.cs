@@ -229,10 +229,10 @@ namespace Sulakore
         public static HGender ToGender(string gender) => (HGender)gender.ToUpper()[0];
 
         /// <summary>
-        /// Iterates through an event's list of subscribed delegates, and begins un-subscribing them from the event.
+        /// Iterates through an event's list of subscribed delegates, and begins to unsubscribe them from the event.
         /// </summary>
         /// <typeparam name="T">The type of the event handler.</typeparam>
-        /// <param name="eventHandler">The event handler to un-subscribe the subscribed delegates from.</param>
+        /// <param name="eventHandler">The event handler to unsubscribe the subscribed delegates from.</param>
         public static void Unsubscribe<T>(ref EventHandler<T> eventHandler) where T : EventArgs
         {
             if (eventHandler == null) return;
