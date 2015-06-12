@@ -87,39 +87,39 @@ namespace Sulakore.Communication
             if (handler != null) handler(this, e);
         }
 
-        public event EventHandler<EntityLoadEventArgs> SentienceLoad;
-        protected void RaiseOnSentienceLoad(InterceptedEventArgs e)
+        public event EventHandler<EntityLoadEventArgs> EntityLoad;
+        protected void RaiseOnEntityLoad(InterceptedEventArgs e)
         {
-            if (SentienceLoad != null)
+            if (EntityLoad != null)
             {
                 var args = new EntityLoadEventArgs(e.Continuation, e.Step, e.Packet);
-                OnSentienceLoad(args);
+                OnEntityLoad(args);
 
                 e.Cancel = args.Cancel;
                 e.WasContinued = args.WasContinued;
             }
         }
-        protected virtual void OnSentienceLoad(EntityLoadEventArgs e)
+        protected virtual void OnEntityLoad(EntityLoadEventArgs e)
         {
-            EventHandler<EntityLoadEventArgs> handler = SentienceLoad;
+            EventHandler<EntityLoadEventArgs> handler = EntityLoad;
             if (handler != null) handler(this, e);
         }
 
-        public event EventHandler<EntityActionEventArgs> SentienceAction;
-        protected void RaiseOnSentienceAction(InterceptedEventArgs e)
+        public event EventHandler<EntityActionEventArgs> EntityAction;
+        protected void RaiseOnEntityAction(InterceptedEventArgs e)
         {
-            if (SentienceAction != null)
+            if (EntityAction != null)
             {
                 var args = new EntityActionEventArgs(e.Continuation, e.Step, e.Packet);
-                OnSentienceAction(args);
+                OnEntityAction(args);
 
                 e.Cancel = args.Cancel;
                 e.WasContinued = args.WasContinued;
             }
         }
-        protected virtual void OnSentienceAction(EntityActionEventArgs e)
+        protected virtual void OnEntityAction(EntityActionEventArgs e)
         {
-            EventHandler<EntityActionEventArgs> handler = SentienceAction;
+            EventHandler<EntityActionEventArgs> handler = EntityAction;
             if (handler != null) handler(this, e);
         }
 
@@ -803,10 +803,10 @@ namespace Sulakore.Communication
                     SKore.Unsubscribe(ref HostWalk);
 
                     SKore.Unsubscribe(ref FurnitureLoad);
-                    SKore.Unsubscribe(ref SentienceAction);
+                    SKore.Unsubscribe(ref EntityAction);
                     SKore.Unsubscribe(ref PlayerUpdate);
                     SKore.Unsubscribe(ref PlayerDance);
-                    SKore.Unsubscribe(ref SentienceLoad);
+                    SKore.Unsubscribe(ref EntityLoad);
                     SKore.Unsubscribe(ref FurnitureDrop);
                     SKore.Unsubscribe(ref PlayerGesture);
                     SKore.Unsubscribe(ref PlayerKickHost);

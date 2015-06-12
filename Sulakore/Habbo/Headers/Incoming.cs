@@ -39,7 +39,7 @@ namespace Sulakore.Habbo.Headers
         public ushort LocalHotelAlert { get; set; }
         public ushort GlobalHotelAlert { get; set; }
 
-        public ushort SentienceLoad { get; set; }
+        public ushort EntityLoad { get; set; }
         public ushort FurnitureLoad { get; set; }
 
         public ushort PlayerUpdate { get; set; }
