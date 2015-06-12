@@ -31,7 +31,7 @@ namespace Sulakore.Habbo.Protocol.Encryption
         private static readonly Random _byteGen;
         
         /// <summary>
-        /// Gets the block size of this <see cref="RsaKey"/>.
+        /// Gets the block size of the <see cref="RsaKey"/>.
         /// </summary>
         public int BlockSize { get; }
         /// <summary>
@@ -67,15 +67,15 @@ namespace Sulakore.Habbo.Protocol.Encryption
         /// </summary>
         public BigInteger Iqmp { get; }
         /// <summary>
-        /// Gets a value that determines whether this <see cref="RsaKey"/> can encrypt data.
+        /// Gets a value that determines whether the <see cref="RsaKey"/> can encrypt data.
         /// </summary>
         public bool CanEncrypt { get; }
         /// <summary>
-        /// Gets a value that determines whether this <see cref="RsaKey"/> can decrypt data.
+        /// Gets a value that determines whether the <see cref="RsaKey"/> can decrypt data.
         /// </summary>
         public bool CanDecrypt { get; }
         /// <summary>
-        /// Gets a value that determines whether this <see cref="RsaKey"/> has already been disposed.
+        /// Gets a value that determines whether the <see cref="RsaKey"/> has already been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
@@ -159,7 +159,9 @@ namespace Sulakore.Habbo.Protocol.Encryption
             buffer[--length] = 0;
             while (length > 2)
             {
-                byte x = (padding == Padding.RandomByte) ? (byte)_byteGen.Next(1, 256) : byte.MaxValue;
+                byte x = (padding == Padding.RandomByte) ?
+                    (byte)_byteGen.Next(1, 256) : byte.MaxValue;
+
                 buffer[--length] = x;
             }
             buffer[--length] = (byte)(padding + 1);
