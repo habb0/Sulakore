@@ -32,14 +32,18 @@ namespace Sulakore.Communication
 {
     public class HTriggers : IDisposable
     {
-        // TODO: Each RaiseOn method should update the original InterceptedEventArgs instance with the new information.
-
         #region Incoming Game Event Handlers
         public event EventHandler<FurnitureLoadEventArgs> FurnitureLoad;
         protected void RaiseOnFurnitureLoad(InterceptedEventArgs e)
         {
             if (FurnitureLoad != null)
-                OnFurnitureLoad(new FurnitureLoadEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new FurnitureLoadEventArgs(e.Continuation, e.Step, e.Packet);
+                OnFurnitureLoad(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnFurnitureLoad(FurnitureLoadEventArgs e)
         {
@@ -51,7 +55,13 @@ namespace Sulakore.Communication
         protected void RaiseOnFurnitureDrop(InterceptedEventArgs e)
         {
             if (FurnitureDrop != null)
-                OnFurnitureDrop(new FurnitureDropEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new FurnitureDropEventArgs(e.Continuation, e.Step, e.Packet);
+                OnFurnitureDrop(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnFurnitureDrop(FurnitureDropEventArgs e)
         {
@@ -63,7 +73,13 @@ namespace Sulakore.Communication
         protected void RaiseOnFurnitureMove(InterceptedEventArgs e)
         {
             if (FurnitureMove != null)
-                OnFurnitureMove(new FurnitureMoveEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new FurnitureMoveEventArgs(e.Continuation, e.Step, e.Packet);
+                OnFurnitureMove(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnFurnitureMove(FurnitureMoveEventArgs e)
         {
@@ -71,27 +87,39 @@ namespace Sulakore.Communication
             if (handler != null) handler(this, e);
         }
 
-        public event EventHandler<SentienceLoadEventArgs> SentienceLoad;
+        public event EventHandler<EntityLoadEventArgs> SentienceLoad;
         protected void RaiseOnSentienceLoad(InterceptedEventArgs e)
         {
             if (SentienceLoad != null)
-                OnSentienceLoad(new SentienceLoadEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new EntityLoadEventArgs(e.Continuation, e.Step, e.Packet);
+                OnSentienceLoad(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
-        protected virtual void OnSentienceLoad(SentienceLoadEventArgs e)
+        protected virtual void OnSentienceLoad(EntityLoadEventArgs e)
         {
-            EventHandler<SentienceLoadEventArgs> handler = SentienceLoad;
+            EventHandler<EntityLoadEventArgs> handler = SentienceLoad;
             if (handler != null) handler(this, e);
         }
 
-        public event EventHandler<SentienceActionEventArgs> SentienceAction;
+        public event EventHandler<EntityActionEventArgs> SentienceAction;
         protected void RaiseOnSentienceAction(InterceptedEventArgs e)
         {
             if (SentienceAction != null)
-                OnSentienceAction(new SentienceActionEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new EntityActionEventArgs(e.Continuation, e.Step, e.Packet);
+                OnSentienceAction(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
-        protected virtual void OnSentienceAction(SentienceActionEventArgs e)
+        protected virtual void OnSentienceAction(EntityActionEventArgs e)
         {
-            EventHandler<SentienceActionEventArgs> handler = SentienceAction;
+            EventHandler<EntityActionEventArgs> handler = SentienceAction;
             if (handler != null) handler(this, e);
         }
 
@@ -99,7 +127,13 @@ namespace Sulakore.Communication
         protected void RaiseOnPlayerKickHost(InterceptedEventArgs e)
         {
             if (PlayerKickHost != null)
-                OnPlayerKickHost(new PlayerKickHostEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new PlayerKickHostEventArgs(e.Continuation, e.Step, e.Packet);
+                OnPlayerKickHost(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnPlayerKickHost(PlayerKickHostEventArgs e)
         {
@@ -111,7 +145,13 @@ namespace Sulakore.Communication
         protected void RaiseOnPlayerUpdate(InterceptedEventArgs e)
         {
             if (PlayerUpdate != null)
-                OnPlayerUpdate(new PlayerUpdateEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new PlayerUpdateEventArgs(e.Continuation, e.Step, e.Packet);
+                OnPlayerUpdate(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnPlayerUpdate(PlayerUpdateEventArgs e)
         {
@@ -123,7 +163,13 @@ namespace Sulakore.Communication
         protected void RaiseOnPlayerDance(InterceptedEventArgs e)
         {
             if (PlayerDance != null)
-                OnPlayerDance(new PlayerDanceEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new PlayerDanceEventArgs(e.Continuation, e.Step, e.Packet);
+                OnPlayerDance(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnPlayerDance(PlayerDanceEventArgs e)
         {
@@ -135,7 +181,13 @@ namespace Sulakore.Communication
         protected void RaiseOnPlayerGesture(InterceptedEventArgs e)
         {
             if (PlayerGesture != null)
-                OnPlayerGesture(new PlayerGestureEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new PlayerGestureEventArgs(e.Continuation, e.Step, e.Packet);
+                OnPlayerGesture(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnPlayerGesture(PlayerGestureEventArgs e)
         {
@@ -148,7 +200,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostBanPlayer(InterceptedEventArgs e)
         {
             if (HostBanPlayer != null)
-                OnHostBanPlayer(new HostBanPlayerEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostBanPlayerEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostBanPlayer(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostBanPlayer(HostBanPlayerEventArgs e)
         {
@@ -160,7 +218,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostUpdateClothes(InterceptedEventArgs e)
         {
             if (HostUpdateClothes != null)
-                OnHostUpdateClothes(new HostUpdateClothesEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostUpdateClothesEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostUpdateClothes(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostUpdateClothes(HostUpdateClothesEventArgs e)
         {
@@ -172,7 +236,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostUpdateMotto(InterceptedEventArgs e)
         {
             if (HostUpdateMotto != null)
-                OnHostUpdateMotto(new HostUpdateMottoEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostUpdateMottoEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostUpdateMotto(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostUpdateMotto(HostUpdateMottoEventArgs e)
         {
@@ -184,7 +254,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostUpdateStance(InterceptedEventArgs e)
         {
             if (HostUpdateStance != null)
-                OnHostUpdateStance(new HostUpdateStanceEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostUpdateStanceEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostUpdateStance(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostUpdateStance(HostUpdateStanceEventArgs e)
         {
@@ -196,7 +272,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostClickPlayer(InterceptedEventArgs e)
         {
             if (HostClickPlayer != null)
-                OnHostClickPlayer(new HostClickPlayerEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostClickPlayerEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostClickPlayer(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostClickPlayer(HostClickPlayerEventArgs e)
         {
@@ -208,7 +290,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostDance(InterceptedEventArgs e)
         {
             if (HostDance != null)
-                OnHostDance(new HostDanceEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostDanceEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostDance(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostDance(HostDanceEventArgs e)
         {
@@ -220,7 +308,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostGesture(InterceptedEventArgs e)
         {
             if (HostGesture != null)
-                OnHostGesture(new HostGestureEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostGestureEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostGesture(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostGesture(HostGestureEventArgs e)
         {
@@ -232,7 +326,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostKickPlayer(InterceptedEventArgs e)
         {
             if (HostKickPlayer != null)
-                OnHostKickPlayer(new HostKickPlayerEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostKickPlayerEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostKickPlayer(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostKickPlayer(HostKickPlayerEventArgs e)
         {
@@ -244,7 +344,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostMoveFurniture(InterceptedEventArgs e)
         {
             if (HostMoveFurniture != null)
-                OnHostMoveFurniture(new HostMoveFurnitureEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostMoveFurnitureEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostMoveFurniture(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostMoveFurniture(HostMoveFurnitureEventArgs e)
         {
@@ -256,7 +362,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostMutePlayer(InterceptedEventArgs e)
         {
             if (HostMutePlayer != null)
-                OnHostMutePlayer(new HostMutePlayerEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostMutePlayerEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostMutePlayer(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostMutePlayer(HostMutePlayerEventArgs e)
         {
@@ -268,7 +380,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostRaiseSign(InterceptedEventArgs e)
         {
             if (HostRaiseSign != null)
-                OnHostRaiseSign(new HostRaiseSignEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostRaiseSignEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostRaiseSign(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostRaiseSign(HostRaiseSignEventArgs e)
         {
@@ -280,7 +398,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostExitRoom(InterceptedEventArgs e)
         {
             if (HostExitRoom != null)
-                OnHostExitRoom(new HostExitRoomEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostExitRoomEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostExitRoom(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostExitRoom(HostExitRoomEventArgs e)
         {
@@ -292,7 +416,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostNavigateRoom(InterceptedEventArgs e)
         {
             if (HostNavigateRoom != null)
-                OnHostNavigateRoom(new HostNavigateRoomEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostNavigateRoomEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostNavigateRoom(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostNavigateRoom(HostNavigateRoomEventArgs e)
         {
@@ -304,7 +434,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostSay(InterceptedEventArgs e)
         {
             if (HostSay != null)
-                OnHostSay(new HostSayEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostSayEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostSay(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostSay(HostSayEventArgs e)
         {
@@ -313,22 +449,34 @@ namespace Sulakore.Communication
         }
 
         public event EventHandler<HostShoutEventArgs> HostShout;
+        protected void RaiseOnHostShout(InterceptedEventArgs e)
+        {
+            if (HostShout != null)
+            {
+                var args = new HostShoutEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostShout(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
+        }
         protected virtual void OnHostShout(HostShoutEventArgs e)
         {
             EventHandler<HostShoutEventArgs> handler = HostShout;
             if (handler != null) handler(this, e);
-        }
-        protected void RaiseOnHostShout(InterceptedEventArgs e)
-        {
-            if (HostShout != null)
-                OnHostShout(new HostShoutEventArgs(e.Continuation, e.Step, e.Packet));
         }
 
         public event EventHandler<HostTradeEventArgs> HostTradePlayer;
         protected void RaiseOnHostTradePlayer(InterceptedEventArgs e)
         {
             if (HostTradePlayer != null)
-                OnHostTradePlayer(new HostTradeEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostTradeEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostTradePlayer(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostTradePlayer(HostTradeEventArgs e)
         {
@@ -340,7 +488,13 @@ namespace Sulakore.Communication
         protected void RaiseOnHostWalk(InterceptedEventArgs e)
         {
             if (HostWalk != null)
-                OnHostWalk(new HostWalkEventArgs(e.Continuation, e.Step, e.Packet));
+            {
+                var args = new HostWalkEventArgs(e.Continuation, e.Step, e.Packet);
+                OnHostWalk(args);
+
+                e.Cancel = args.Cancel;
+                e.WasContinued = args.WasContinued;
+            }
         }
         protected virtual void OnHostWalk(HostWalkEventArgs e)
         {
@@ -363,16 +517,16 @@ namespace Sulakore.Communication
         public bool DetectIncoming { get; set; }
         public bool IsDisposed { get; private set; }
 
-        public Incoming InHeaders { get; }
-        public Outgoing OutHeaders { get; }
+        public Incoming IncomingHeaders { get; }
+        public Outgoing OutgoingHeaders { get; }
 
         public HTriggers(bool isDetecting)
         {
             DetectOutgoing = isDetecting;
             DetectIncoming = isDetecting;
 
-            InHeaders = new Incoming();
-            OutHeaders = new Outgoing();
+            IncomingHeaders = new Incoming();
+            OutgoingHeaders = new Outgoing();
 
             _inPrevious = new Stack<HMessage>();
             _outPrevious = new Stack<HMessage>();
@@ -414,8 +568,9 @@ namespace Sulakore.Communication
         public void HandleOutgoing(InterceptedEventArgs e)
         {
             if (e.Packet?.IsCorrupted ?? true) return;
-            bool ignoreCurrent = false;
 
+            e.Packet.Position = 0;
+            bool ignoreCurrent = false;
             try
             {
                 if (_outAttaches.ContainsKey(e.Packet.Header))
@@ -423,31 +578,35 @@ namespace Sulakore.Communication
 
                 if (DetectOutgoing && _outPrevious.Count > 0)
                 {
+                    e.Packet.Position = 0;
                     HMessage previous = _outPrevious.Pop();
 
-                    if (_outLocked.ContainsKey(e.Packet.Header))
-                    {
-                        ignoreCurrent = true;
-                        _outLocked[e.Packet.Header](e);
-                    }
-                    else
-                    {
+                    if (!_outLocked.ContainsKey(e.Packet.Header) &&
+                        !_outLocked.ContainsKey(previous.Header))
                         ignoreCurrent = HandleOutgoing(e.Packet, previous);
-                        if (ignoreCurrent)
+                    else ignoreCurrent = true;
+
+                    if (ignoreCurrent)
+                    {
+                        e.Packet.Position = 0;
+                        previous.Position = 0;
+
+                        if (_outLocked.ContainsKey(e.Packet.Header))
+                            _outLocked[e.Packet.Header](e);
+                        else if (_outLocked.ContainsKey(previous.Header))
                         {
-                            _outLocked?[e.Packet.Header](e);
-                            _outLocked?[previous.Header](e);
+                            var args = new InterceptedEventArgs(previous);
+                            _outLocked[previous.Header](args);
                         }
                     }
                 }
             }
             finally
             {
+                e.Packet.Position = 0;
+
                 if (!ignoreCurrent && DetectOutgoing)
-                {
-                    e.Packet.Position = 0;
                     _outPrevious.Push(e.Packet);
-                }
             }
         }
         protected virtual bool HandleOutgoing(HMessage current, HMessage previous)
@@ -470,8 +629,9 @@ namespace Sulakore.Communication
         public void HandleIncoming(InterceptedEventArgs e)
         {
             if (e.Packet?.IsCorrupted ?? true) return;
-            bool ignoreCurrent = false;
 
+            e.Packet.Position = 0;
+            bool ignoreCurrent = false;
             try
             {
                 if (_inAttaches.ContainsKey(e.Packet.Header))
@@ -479,31 +639,36 @@ namespace Sulakore.Communication
 
                 if (DetectIncoming && _inPrevious.Count > 0)
                 {
+                    e.Packet.Position = 0;
                     HMessage previous = _inPrevious.Pop();
 
-                    if (_inLocked.ContainsKey(e.Packet.Header))
-                    {
-                        ignoreCurrent = true;
-                        _inLocked[e.Packet.Header](e);
-                    }
-                    else
-                    {
+                    if (!_inLocked.ContainsKey(e.Packet.Header) &&
+                        !_inLocked.ContainsKey(previous.Header))
                         ignoreCurrent = HandleIncoming(e.Packet, previous);
-                        if (ignoreCurrent)
+                    else ignoreCurrent = true;
+
+                    if (ignoreCurrent)
+                    {
+                        e.Packet.Position = 0;
+                        previous.Position = 0;
+
+                        if (_inLocked.ContainsKey(e.Packet.Header))
+                            _inLocked[e.Packet.Header](e);
+                        else if (_inLocked.ContainsKey(previous.Header))
                         {
-                            _inLocked?[e.Packet.Header](e);
-                            _inLocked?[previous.Header](e);
+                            var args = new InterceptedEventArgs(previous);
+                            _inLocked[previous.Header](args);
                         }
                     }
                 }
             }
             finally
             {
+                e.Packet.Position = 0;
+
                 if (!ignoreCurrent && DetectIncoming)
-                {
-                    e.Packet.Position = 0;
                     _inPrevious.Push(e.Packet);
-                }
+
             }
         }
         protected virtual bool HandleIncoming(HMessage current, HMessage previous)
@@ -521,7 +686,7 @@ namespace Sulakore.Communication
             if (previous.Length != 2 || current.ReadInteger(0) != -1)
                 return false;
 
-            OutHeaders.HostExitRoom = previous.Header;
+            OutgoingHeaders.HostExitRoom = previous.Header;
             _outLocked[previous.Header] = RaiseOnHostExitRoom;
             return true;
         }
@@ -530,7 +695,7 @@ namespace Sulakore.Communication
             bool isHostRaiseSign = false;
             if (current.CanRead<string>(22) && current.ReadString(22) == "sign")
             {
-                OutHeaders.RaiseSign = previous.Header;
+                OutgoingHeaders.RaiseSign = previous.Header;
                 _outLocked[previous.Header] = RaiseOnHostRaiseSign;
 
                 isHostRaiseSign = true;
@@ -542,7 +707,7 @@ namespace Sulakore.Communication
             bool isPlayerKickHost = (current.ReadInteger(0) == 4008);
             if (isPlayerKickHost)
             {
-                InHeaders.PlayerKickHost = current.Header;
+                IncomingHeaders.PlayerKickHost = current.Header;
                 _inLocked[current.Header] = RaiseOnPlayerKickHost;
             }
             return isPlayerKickHost;
@@ -555,7 +720,7 @@ namespace Sulakore.Communication
                 case "sit":
                 case "stand":
                 {
-                    OutHeaders.UpdateStance = current.Header;
+                    OutgoingHeaders.UpdateStance = current.Header;
                     _outLocked[current.Header] = RaiseOnHostUpdateStance;
                     return true;
                 }
@@ -563,7 +728,7 @@ namespace Sulakore.Communication
                 case "dance_stop":
                 case "dance_start":
                 {
-                    OutHeaders.Dance = current.Header;
+                    OutgoingHeaders.Dance = current.Header;
                     _outLocked[current.Header] = RaiseOnHostDance;
                     return true;
                 }
@@ -573,7 +738,7 @@ namespace Sulakore.Communication
                 case "laugh":
                 case "blow_kiss":
                 {
-                    OutHeaders.Gesture = current.Header;
+                    OutgoingHeaders.Gesture = current.Header;
                     _outLocked[current.Header] = RaiseOnHostGesture;
                     return true;
                 }
@@ -591,7 +756,7 @@ namespace Sulakore.Communication
 
                 if (previous.ReadInteger(0).ToString() == current.ReadString())
                 {
-                    OutHeaders.NavigateRoom = previous.Header;
+                    OutgoingHeaders.NavigateRoom = previous.Header;
 
                     _outLocked[previous.Header] = RaiseOnHostNavigateRoom;
                     return true;
