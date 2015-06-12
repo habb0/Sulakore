@@ -30,7 +30,7 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class PlayerDanceEventArgs : InterceptedEventArgs
+    public class PlayerDanceEventArgs : InterceptedEventArgs, IHEntity
     {
         public int Index { get; }
         public HDance Dance { get; }
