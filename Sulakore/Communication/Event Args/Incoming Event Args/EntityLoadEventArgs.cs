@@ -32,36 +32,36 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class SentienceLoadEventArgs : InterceptedEventArgs, IReadOnlyList<HSentient>
+    public class EntityLoadEventArgs : InterceptedEventArgs, IReadOnlyList<HEntity>
     {
-        private readonly IReadOnlyList<HSentient> _sentienceLoadList;
+        private readonly IReadOnlyList<HEntity> _entityLoadList;
 
-        public int Count => _sentienceLoadList.Count;
-        public HSentient this[int index] => _sentienceLoadList[index];
+        public int Count => _entityLoadList.Count;
+        public HEntity this[int index] => _entityLoadList[index];
 
-        public SentienceLoadEventArgs(HMessage packet)
+        public EntityLoadEventArgs(HMessage packet)
             : this(null, -1, packet)
         { }
-        public SentienceLoadEventArgs(int step, HMessage packet)
+        public EntityLoadEventArgs(int step, HMessage packet)
             : this(null, step, packet)
         { }
-        public SentienceLoadEventArgs(int step, byte[] data, HDestination destination)
+        public EntityLoadEventArgs(int step, byte[] data, HDestination destination)
             : this(null, step, new HMessage(data, destination))
         { }
-        public SentienceLoadEventArgs(Func<Task> continuation, int step, HMessage packet)
+        public EntityLoadEventArgs(Func<Task> continuation, int step, HMessage packet)
             : base(continuation, step, packet)
         {
-            _sentienceLoadList = HSentient.Parse(packet);
+            _entityLoadList = HEntity.Parse(packet);
         }
-        public SentienceLoadEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+        public EntityLoadEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
             : this(continuation, step, new HMessage(data, destination))
         { }
 
-        public IEnumerator<HSentient> GetEnumerator() =>
-            _sentienceLoadList.GetEnumerator();
+        public IEnumerator<HEntity> GetEnumerator() =>
+            _entityLoadList.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            ((IEnumerable)_sentienceLoadList).GetEnumerator();
+            ((IEnumerable)_entityLoadList).GetEnumerator();
 
         public override string ToString() =>
             $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Count)}: {Count}";

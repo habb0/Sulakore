@@ -32,36 +32,36 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class SentienceActionEventArgs : InterceptedEventArgs, IReadOnlyList<HSentientAction>
+    public class EntityActionEventArgs : InterceptedEventArgs, IReadOnlyList<HEntityAction>
     {
-        private readonly IReadOnlyList<HSentientAction> _sentienceActionList;
+        private readonly IReadOnlyList<HEntityAction> _entityActionList;
 
-        public int Count => _sentienceActionList.Count;
-        public HSentientAction this[int index] => _sentienceActionList[index];
+        public int Count => _entityActionList.Count;
+        public HEntityAction this[int index] => _entityActionList[index];
 
-        public SentienceActionEventArgs(HMessage packet)
+        public EntityActionEventArgs(HMessage packet)
             : this(null, -1, packet)
         { }
-        public SentienceActionEventArgs(int step, HMessage packet)
+        public EntityActionEventArgs(int step, HMessage packet)
             : this(null, step, packet)
         { }
-        public SentienceActionEventArgs(int step, byte[] data, HDestination destination)
+        public EntityActionEventArgs(int step, byte[] data, HDestination destination)
             : this(null, step, new HMessage(data, destination))
         { }
-        public SentienceActionEventArgs(Func<Task> continuation, int step, HMessage packet)
+        public EntityActionEventArgs(Func<Task> continuation, int step, HMessage packet)
             : base(continuation, step, packet)
         {
-            _sentienceActionList = HSentientAction.Parse(packet);
+            _entityActionList = HEntityAction.Parse(packet);
         }
-        public SentienceActionEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
+        public EntityActionEventArgs(Func<Task> continuation, int step, byte[] data, HDestination destination)
             : this(continuation, step, new HMessage(data, destination))
         { }
 
-        public IEnumerator<HSentientAction> GetEnumerator() =>
-            _sentienceActionList.GetEnumerator();
+        public IEnumerator<HEntityAction> GetEnumerator() =>
+            _entityActionList.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            ((IEnumerable)_sentienceActionList).GetEnumerator();
+            ((IEnumerable)_entityActionList).GetEnumerator();
 
         public override string ToString() =>
             $"{nameof(Packet.Header)}: {Packet.Header}, {nameof(Count)}: {Count}";
