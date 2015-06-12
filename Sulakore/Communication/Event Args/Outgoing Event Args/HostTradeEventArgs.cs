@@ -25,11 +25,12 @@
 using System;
 using System.Threading.Tasks;
 
+using Sulakore.Habbo;
 using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class HostTradeEventArgs : InterceptedEventArgs
+    public class HostTradeEventArgs : InterceptedEventArgs, IHEntity
     {
         public int Index { get; }
 
