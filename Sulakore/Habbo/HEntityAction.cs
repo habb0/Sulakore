@@ -30,62 +30,62 @@ using Sulakore.Habbo.Protocol;
 namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Represents a sentient object performing actions.
+    /// Represents an <see cref="IHEntity"/> performing actions.
     /// </summary>
-    public class HSentientAction
+    public class HEntityAction : IHEntity
     {
         /// <summary>
-        /// Gets the room index value of the sentient object.
+        /// Gets the room index value of the <see cref="IHEntity"/>.
         /// </summary>
         public int Index { get; }
         /// <summary>
-        /// Gets a value that determines whether the sentient object has privileges.
+        /// Gets a value that determines whether the <see cref="IHEntity"/> has privileges.
         /// </summary>
         public bool IsEmpowered { get; }
 
         /// <summary>
-        /// Gets the <see cref="HPoint"/> of where the sentient object is currently on.
+        /// Gets the <see cref="HPoint"/> of where the <see cref="IHEntity"/> is currently on.
         /// </summary>
         public HPoint Tile { get; }
         /// <summary>
-        /// Gets the <see cref="HPoint"/> of where the sentient object will move to next.
+        /// Gets the <see cref="HPoint"/> of where the <see cref="IHEntity"/> will move to next.
         /// </summary>
         public HPoint MovingTo { get; }
 
         /// <summary>
-        /// Gets the <see cref="HSign"/> that the sentient object has raised.
+        /// Gets the <see cref="HSign"/> that the <see cref="IHEntity"/> has raised.
         /// </summary>
         public HSign Sign { get; }
         /// <summary>
-        /// Gets the current <see cref="HStance"/> of the sentient object.
+        /// Gets the current <see cref="HStance"/> of the <see cref="IHEntity"/>.
         /// </summary>
         public HStance Stance { get; }
         /// <summary>
-        /// Gets the <see cref="HAction"/> that the sentient object has recently done.
+        /// Gets the <see cref="HAction"/> that the <see cref="IHEntity"/> has recently done.
         /// </summary>
         public HAction LastAction { get; }
         /// <summary>
-        /// Gets the <see cref="HDirection"/> of the sentient object's head.
+        /// Gets the head <see cref="HDirection"/> of the <see cref="IHEntity"/>.
         /// </summary>
         public HDirection HeadDirection { get; }
         /// <summary>
-        /// Gets the <see cref="HDirection"/> of the sentient object's body.
+        /// Gets the body <see cref="HDirection"/> of the <see cref="IHEntity"/>.
         /// </summary>
         public HDirection BodyDirection { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HSentientAction"/> class with the specified sentient object data.
+        /// Initializes a new instance of the <see cref="HEntityAction"/> class with the specified information.
         /// </summary>
-        /// <param name="isEmpowered">The value that determines whether the sentient object has privileges.</param>
-        /// <param name="index">The room index value of the sentient object.</param>
-        /// <param name="tile">The <see cref="HPoint"/> of where the sentient object is currently on.</param>
-        /// <param name="movingTo">The <see cref="HPoint"/> of where the sentient object will move to next.</param>
-        /// <param name="sign">The <see cref="HSign"/> that the sentient object has raised.</param>
-        /// <param name="stance">The current <see cref="HStance"/> of the sentient object.</param>
-        /// <param name="headDirection">The <see cref="HDirection"/> of the sentient object's head.</param>
-        /// <param name="bodyDirection">The <see cref="HDirection"/> of the sentient object's body.</param>
-        /// <param name="lastAction">The <see cref="HAction"/> that the sentient object has recently done.</param>
-        public HSentientAction(bool isEmpowered, int index, HPoint tile, HPoint movingTo,
+        /// <param name="isEmpowered">The value that determines whether the <see cref="IHEntity"/> has privileges.</param>
+        /// <param name="index">The room index value of the <see cref="IHEntity"/>.</param>
+        /// <param name="tile">The <see cref="HPoint"/> of where the <see cref="IHEntity"/> is currently on.</param>
+        /// <param name="movingTo">The <see cref="HPoint"/> of where the <see cref="IHEntity"/> will move to next.</param>
+        /// <param name="sign">The <see cref="HSign"/> that the <see cref="IHEntity"/> has raised.</param>
+        /// <param name="stance">The current <see cref="HStance"/> of the <see cref="IHEntity"/>.</param>
+        /// <param name="headDirection">The <see cref="HDirection"/> of the <see cref="IHEntity"/>'s head.</param>
+        /// <param name="bodyDirection">The <see cref="HDirection"/> of the <see cref="IHEntity"/>'s body.</param>
+        /// <param name="lastAction">The <see cref="HAction"/> that the <see cref="IHEntity"/> has recently done.</param>
+        public HEntityAction(bool isEmpowered, int index, HPoint tile, HPoint movingTo,
             HSign sign, HStance stance, HDirection headDirection, HDirection bodyDirection, HAction lastAction)
         {
             Index = index;
@@ -104,16 +104,16 @@ namespace Sulakore.Habbo
         }
 
         /// <summary>
-        /// Returns a <see cref="IReadOnlyList{T}"/> containing a list of actions performed by sentient objects found in the <see cref="HMessage"/>.
+        /// Returns a <see cref="IReadOnlyList{T}"/> of type <see cref="HEntityAction"/> found in the <see cref="HMessage"/>.
         /// </summary>
-        /// <param name="packet">The <see cref="HMessage"/> that contains the sentient object's action data to parse.</param>
+        /// <param name="packet">The <see cref="HMessage"/> that contains the <see cref="HEntityAction"/> data to parse.</param>
         /// <returns></returns>
-        public static IReadOnlyList<HSentientAction> Parse(HMessage packet)
+        public static IReadOnlyList<HEntityAction> Parse(HMessage packet)
         {
-            int sentientActionCount = packet.ReadInteger();
-            var sentientActionList = new List<HSentientAction>(sentientActionCount);
+            int entityActionCount = packet.ReadInteger();
+            var entityActionList = new List<HEntityAction>(entityActionCount);
 
-            for (int i = 0; i < sentientActionList.Capacity; i++)
+            for (int i = 0; i < entityActionList.Capacity; i++)
             {
                 int index = packet.ReadInteger();
                 int x = packet.ReadInteger();
@@ -182,16 +182,16 @@ namespace Sulakore.Habbo
                     #endregion
                 }
 
-                var sentientAction = new HSentientAction(isEmpowered, index, new HPoint(x, y, z),
+                var entityAction = new HEntityAction(isEmpowered, index, new HPoint(x, y, z),
                     new HPoint(movingToX, movingToY, movingToZ), sign, stance, headDirection, bodyDirection, action);
-                
-                sentientActionList.Add(sentientAction);
+
+                entityActionList.Add(entityAction);
             }
-            return sentientActionList;
+            return entityActionList;
         }
 
         /// <summary>
-        /// Converts this <see cref="HSentientAction"/> to a human-readable string.
+        /// Converts the <see cref="HEntityAction"/> to a human-readable string.
         /// </summary>
         /// <returns></returns>
         public override string ToString() =>
