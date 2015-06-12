@@ -57,7 +57,7 @@ namespace Sulakore.Communication
             if (handler != null) handler(this, e);
         }
         /// <summary>
-        /// Occurs when either client/server have been disconnected, or when <see cref="Disconnect"/> has been called if this <see cref="HConnection"/> is currently connected.
+        /// Occurs when either client/server have been disconnected, or when <see cref="Disconnect"/> has been called if the <see cref="HConnection"/> is currently connected.
         /// </summary>
         public event EventHandler<EventArgs> Disconnected;
         /// <summary>
@@ -72,29 +72,29 @@ namespace Sulakore.Communication
         /// <summary>
         /// Occurs when incoming data from the server has been intercepted.
         /// </summary>
-        public event EventHandler<InterceptedEventArgs> IncomingIntercepted;
+        public event EventHandler<InterceptedEventArgs> DataIncoming;
         /// <summary>
-        /// Raises the <see cref="IncomingIntercepted"/> event.
+        /// Raises the <see cref="DataIncoming"/> event.
         /// </summary>
         /// <param name="e">An <see cref="InterceptedEventArgs"/> that contains the event data.</param>
         /// <returns></returns>
-        protected virtual void OnIncomingIntercepted(InterceptedEventArgs e)
+        protected virtual void OnDataIncoming(InterceptedEventArgs e)
         {
-            EventHandler<InterceptedEventArgs> handler = IncomingIntercepted;
+            EventHandler<InterceptedEventArgs> handler = DataIncoming;
             if (handler != null) handler(this, e);
         }
         /// <summary>
         /// Occurs when outgoing data from the client has been intercepted.
         /// </summary>
-        public event EventHandler<InterceptedEventArgs> OutgoingIntercepted;
+        public event EventHandler<InterceptedEventArgs> DataOutgoing;
         /// <summary>
-        /// Raises the <see cref="OutgoingIntercepted"/> event.
+        /// Raises the <see cref="DataOutgoing"/> event.
         /// </summary>
         /// <param name="e">An <see cref="InterceptedEventArgs"/> that contains the event data.</param>
         /// <returns></returns>
-        protected virtual void OnOutgoingIntercepted(InterceptedEventArgs e)
+        protected virtual void OnDataOutgoing(InterceptedEventArgs e)
         {
-            EventHandler<InterceptedEventArgs> handler = OutgoingIntercepted;
+            EventHandler<InterceptedEventArgs> handler = DataOutgoing;
             if (handler != null) handler(this, e);
         }
 
@@ -111,11 +111,11 @@ namespace Sulakore.Communication
         /// </summary>
         public HNode Remote { get; private set; }
         /// <summary>
-        /// Gets a value that determines whether this <see cref="HConnection"/> has been disposed.
+        /// Gets a value that determines whether the <see cref="HConnection"/> has been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
         /// <summary>
-        /// Gets a value that determines whether this <see cref="HConnection"/> has established a connection with the game.
+        /// Gets a value that determines whether the <see cref="HConnection"/> has established a connection with the game.
         /// </summary>
         public bool IsConnected { get; private set; }
         /// <summary>
@@ -179,8 +179,6 @@ namespace Sulakore.Communication
                     Local.Dispose();
                     Remote.Dispose();
 
-                    TotalOutgoing = TotalIncoming = 0;
-
                     IsConnected = false;
                     OnDisconnected(EventArgs.Empty);
                     TotalIncoming = TotalOutgoing = 0;
@@ -192,24 +190,6 @@ namespace Sulakore.Communication
                 }
             }
             else return;
-        }
-        /// <summary>
-        /// Sends data to the local <see cref="HNode"/> in an asynchronous operation.
-        /// </summary>
-        /// <param name="data">The data to send to the node.</param>
-        /// <returns></returns>
-        public Task<int> SendToClientAsync(byte[] data)
-        {
-            return Local.SendAsync(data);
-        }
-        /// <summary>
-        /// Sends data to the remote <see cref="HNode"/> in an asynchronous operation.
-        /// </summary>
-        /// <param name="data">The data to send to the node.</param>
-        /// <returns></returns>
-        public Task <int> SendToServerAsync(byte[] data)
-        {
-            return Remote.SendAsync(data);
         }
         /// <summary>
         /// Intercepts the attempted connection on the specified port, and establishes a connection with the host in an asynchronous operation.
@@ -264,6 +244,46 @@ namespace Sulakore.Communication
             }
         }
 
+        /// <summary>
+        /// Sends data to the remote <see cref="HNode"/> in an asynchronous operation.
+        /// </summary>
+        /// <param name="data">The data to send to the node.</param>
+        /// <returns></returns>
+        public Task<int> SendToServerAsync(byte[] data)
+        {
+            return Remote.SendAsync(data);
+        }
+        /// <summary>
+        /// Sends data to the remote <see cref="HNode"/> using the specified header, and chunks in an asynchronous operation.
+        /// </summary>
+        /// <param name="header">The header to be used for the construction of the packet.</param>
+        /// <param name="chunks">The chunks/values that the packet will carry.</param>
+        /// <returns></returns>
+        public Task<int> SendToServerAsync(ushort header, params object[] chunks)
+        {
+            return Remote.SendAsync(HMessage.Construct(header, chunks));
+        }
+
+        /// <summary>
+        /// Sends data to the local <see cref="HNode"/> in an asynchronous operation.
+        /// </summary>
+        /// <param name="data">The data to send to the node.</param>
+        /// <returns></returns>
+        public Task<int> SendToClientAsync(byte[] data)
+        {
+            return Local.SendAsync(data);
+        }
+        /// <summary>
+        /// Sends data to the local <see cref="HNode"/> using the specified header, and chunks in an asynchronous operation.
+        /// </summary>
+        /// <param name="header">The header to be used for the construction of the packet.</param>
+        /// <param name="chunks">The chunks/values that the packet will carry.</param>
+        /// <returns></returns>
+        public Task<int> SendToClientAsync(ushort header, params object[] chunks)
+        {
+            return Local.SendAsync(HMessage.Construct(header, chunks));
+        }
+
         private async Task ReadOutgoingAsync()
         {
             byte[] packet = await Local.ReceiveAsync().ConfigureAwait(false);
@@ -276,7 +296,7 @@ namespace Sulakore.Communication
 
             if (!args.Cancel && !BlockedOutgoing.Contains(args.Packet.Header))
             {
-                OnOutgoingIntercepted(args);
+                OnDataOutgoing(args);
 
                 if (!args.Cancel)
                     SendToServerAsync(args.Packet.ToBytes());
@@ -298,7 +318,7 @@ namespace Sulakore.Communication
 
             if (!args.Cancel && !BlockedIncoming.Contains(args.Packet.Header))
             {
-                OnIncomingIntercepted(args);
+                OnDataIncoming(args);
 
                 if (!args.Cancel)
                     SendToClientAsync(args.Packet.ToBytes());
@@ -338,13 +358,12 @@ namespace Sulakore.Communication
             {
                 if (disposing)
                 {
+                    Triggers.Dispose();
                     SKore.Unsubscribe(ref Connected);
                     SKore.Unsubscribe(ref Disconnected);
-                    SKore.Unsubscribe(ref IncomingIntercepted);
-                    SKore.Unsubscribe(ref OutgoingIntercepted);
-
+                    SKore.Unsubscribe(ref DataIncoming);
+                    SKore.Unsubscribe(ref DataOutgoing);
                     Disconnect();
-                    Triggers.Dispose();
                 }
                 IsDisposed = true;
             }
