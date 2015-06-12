@@ -30,15 +30,15 @@ namespace Sulakore.Habbo
     public struct HPoint
     {
         /// <summary>
-        /// Gets or sets the x-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the x-coordinate of the <see cref="HPoint"/>.
         /// </summary>
         public int X { get; set; }
         /// <summary>
-        /// Gets or sets the y-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the y-coordinate of the <see cref="HPoint"/>.
         /// </summary>
         public int Y { get; set; }
         /// <summary>
-        /// Gets or sets the z-coordinate of this <see cref="HPoint"/>.
+        /// Gets or sets the z-coordinate of the <see cref="HPoint"/>.
         /// </summary>
         public double Z { get; set; }
 
@@ -64,7 +64,7 @@ namespace Sulakore.Habbo
         }
 
         /// <summary>
-        /// Converts this <see cref="HPoint"/> to a human-readable string.
+        /// Converts the <see cref="HPoint"/> to a human-readable string.
         /// </summary>
         /// <returns></returns>
         public override string ToString()
