@@ -30,7 +30,7 @@ using Sulakore.Habbo.Protocol;
 
 namespace Sulakore.Communication
 {
-    public class PlayerUpdateEventArgs : InterceptedEventArgs
+    public class PlayerUpdateEventArgs : InterceptedEventArgs, IHEntity
     {
         public int Index { get; }
         public string Motto { get; }
