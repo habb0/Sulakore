@@ -37,8 +37,10 @@ namespace Sulakore.Communication
     /// </summary>
     public class HNode : IDisposable
     {
-        private readonly Socket _node;
-        
+        /// <summary>
+        /// Gets the <see cref="Socket"/> that is being sent data, and receiving data.
+        /// </summary>
+        public Socket Node { get; }
         /// <summary>
         /// Gets or sets the <see cref="Rc4"/> for encrypting the data being sent.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Sulakore.Communication
         /// </summary>
         public Rc4 Decrypter { get; set; }
         /// <summary>
-        /// Gets or sets the value that determines whether this <see cref="HNode"/> has already been disposed.
+        /// Gets or sets the value that determines whether the <see cref="HNode"/> has already been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
@@ -58,7 +60,7 @@ namespace Sulakore.Communication
         /// <param name="node"></param>
         public HNode(Socket node)
         {
-            _node = node;
+            Node = node;
         }
 
         /// <summary>
@@ -80,10 +82,10 @@ namespace Sulakore.Communication
         /// <returns></returns>
         public Task<int> SendAsync(byte[] buffer, int offset, int size)
         {
-            IAsyncResult result = _node.BeginSend(buffer, offset,
+            IAsyncResult result = Node.BeginSend(buffer, offset,
                 size, SocketFlags.None, null, null);
 
-            return Task.Factory.FromAsync(result, _node.EndSend);
+            return Task.Factory.FromAsync(result, Node.EndSend);
         }
 
         /// <summary>
@@ -128,16 +130,16 @@ namespace Sulakore.Communication
         /// <returns></returns>
         public Task<int> ReceiveAsync(byte[] buffer, int offset, int size)
         {
-            IAsyncResult result = _node.BeginReceive(buffer, offset,
+            IAsyncResult result = Node.BeginReceive(buffer, offset,
                 size, SocketFlags.None, null, null);
 
-            return Task.Factory.FromAsync(result, _node.EndReceive);
+            return Task.Factory.FromAsync(result, Node.EndReceive);
         }
 
         /// <summary>
         /// Returns a <see cref="HNode"/> that was intercepted on the specified port in an asynchronous operation.
         /// </summary>
-        /// <param name="port">The port to listen for local connection attempts.</param>
+        /// <param name="port">The port to listen to for local connection attempts.</param>
         /// <returns></returns>
         public static async Task<HNode> InterceptAsync(int port)
         {
@@ -152,8 +154,8 @@ namespace Sulakore.Communication
         /// <summary>
         /// Returns a <see cref="HNode"/> connected with the specified host/port in an asynchronous operation.
         /// </summary>
-        /// <param name="host"></param>
-        /// <param name="port"></param>
+        /// <param name="host">The host to establish the connection with.</param>
+        /// <param name="port">The port to establish the connection with.</param>
         /// <returns></returns>
         public static async Task<HNode> ConnectAsync(string host, int port)
         {
@@ -183,12 +185,11 @@ namespace Sulakore.Communication
             {
                 if (disposing)
                 {
-                    if (_node != null)
+                    if (Node != null)
                     {
-                        _node.Shutdown(SocketShutdown.Both);
-                        _node.Close();
+                        Node.Shutdown(SocketShutdown.Both);
+                        Node.Close();
                     }
-
                     Encrypter = null;
                     Decrypter = null;
                 }
