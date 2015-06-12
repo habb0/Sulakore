@@ -40,21 +40,21 @@ namespace Sulakore.Communication
         /// </summary>
         public int Step { get; }
         /// <summary>
+        /// Gets a value that determines whether the <see cref="InterceptedEventArgs"/> can be turned into a non-blocking operation by calling <see cref="ContinueRead"/>.
+        /// </summary>
+        public bool IsAsyncCapable { get; }
+        /// <summary>
         /// Gets the intercepted <see cref="HMessage"/> that allows for read/write operations.
         /// </summary>
         public HMessage Packet { get; set; }
         /// <summary>
         /// Gets the <see cref="Func{TResult}"/> of type <see cref="Task"/> that will be invoked when <see cref="ContinueRead"/> is called.
         /// </summary>
-        internal Func<Task> Continuation { get; }
+        internal Func<Task> Continuation { get; set; }
         /// <summary>
         /// Gets a value that determines whether <see cref="ContinueRead"/> was called by the receiver.
         /// </summary>
-        public bool WasContinued { get; private set; }
-        /// <summary>
-        /// Gets a value that determines whether this <see cref="InterceptedEventArgs"/> can be turned into a non-blocking operation by calling <see cref="ContinueRead"/>.
-        /// </summary>
-        public bool IsAsyncCapable { get; private set; }
+        public bool WasContinued { get; internal set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InterceptedEventArgs"/> class.
@@ -110,11 +110,8 @@ namespace Sulakore.Communication
         /// </summary>
         public void ContinueRead()
         {
-            if (WasContinued) return;
+            if (!IsAsyncCapable || WasContinued) return;
             else WasContinued = true;
-
-            if (Continuation == null)
-                throw new NullReferenceException($"{nameof(Continuation)}");
 
             Continuation();
         }
