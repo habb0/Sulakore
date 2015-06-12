@@ -29,56 +29,56 @@ using Sulakore.Habbo.Protocol;
 namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Represents an in-game object that probably has feelings.
+    /// Represents an in-game object that provides special information that makes it unique in a room.
     /// </summary>
-    public class HSentient
+    public class HEntity : IHEntity
     {
         /// <summary>
-        /// Gets the id of the sentient object.
+        /// Gets the id of the <see cref="HEntity"/>.
         /// </summary>
         public int Id { get; }
         /// <summary>
-        /// Gets the room index value of the sentient object.
+        /// Gets the room index value of the <see cref="HEntity"/>.
         /// </summary>
         public int Index { get; }
         /// <summary>
-        /// Gets the name of the sentient object.
+        /// Gets the name of the <see cref="HEntity"/>.
         /// </summary>
         public string Name { get; }
         /// <summary>
-        /// Gets the motto of the sentient object.
+        /// Gets the motto of the <see cref="HEntity"/>.
         /// </summary>
         public string Motto { get; }
         /// <summary>
-        /// Gets the figure id of the sentient object.
+        /// Gets the figure id of the <see cref="HEntity"/>.
         /// </summary>
         public string FigureId { get; }
         /// <summary>
-        /// Gets the favorite group badge of the sentient object.
+        /// Gets the favorite group badge of the <see cref="HEntity"/>.
         /// </summary>
         public string FavoriteGroup { get; }
 
         /// <summary>
-        /// Gets the <see cref="HPoint"/> of the sentient object.
+        /// Gets the <see cref="HPoint"/> of the <see cref="HEntity"/>.
         /// </summary>
         public HPoint Tile { get; }
         /// <summary>
-        /// Gets the gender of the sentient object.
+        /// Gets the gender of the <see cref="HEntity"/>.
         /// </summary>
         public HGender Gender { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HSentient"/> class with the specified sentient object data.
+        /// Initializes a new instance of the <see cref="HEntity"/> class with the specified information,
         /// </summary>
-        /// <param name="id">The id of the sentient object.</param>
-        /// <param name="index">The room index value of the sentient object.</param>
-        /// <param name="name">The name of the sentient object.</param>
-        /// <param name="tile">The <see cref="HPoint"/> of the sentient object.</param>
-        /// <param name="motto">The motto of the sentient object.</param>
-        /// <param name="gender">The <see cref="HGender"/> of the sentient object.</param>
-        /// <param name="figureId">The figure id of the sentient object.</param>
-        /// <param name="favoriteGroup">The favorite group badge of the sentient object.</param>
-        public HSentient(int id, int index, string name, HPoint tile,
+        /// <param name="id">The id of the <see cref="HEntity"/>.</param>
+        /// <param name="index">The room index value of the <see cref="HEntity"/>.</param>
+        /// <param name="name">The name of the <see cref="HEntity"/>.</param>
+        /// <param name="tile">The <see cref="HPoint"/> of the <see cref="HEntity"/>.</param>
+        /// <param name="motto">The motto of the <see cref="HEntity"/>.</param>
+        /// <param name="gender">The <see cref="HGender"/> of the <see cref="HEntity"/>.</param>
+        /// <param name="figureId">The figure id of the <see cref="HEntity"/>.</param>
+        /// <param name="favoriteGroup">The favorite group badge of the <see cref="HEntity"/>.</param>
+        public HEntity(int id, int index, string name, HPoint tile,
             string motto, HGender gender, string figureId, string favoriteGroup)
         {
             Id = id;
@@ -92,16 +92,16 @@ namespace Sulakore.Habbo
         }
 
         /// <summary>
-        /// Returns a <see cref="IReadOnlyList{T}"/> containing a list of sentient objects found in the <see cref="HMessage"/>.
+        /// Returns a <see cref="IReadOnlyList{T}"/> of type <see cref="HEntity"/> found in the <see cref="HMessage"/>.
         /// </summary>
-        /// <param name="packet">The <see cref="HMessage"/> that contains the sentient object data to parse.</param>
+        /// <param name="packet">The <see cref="HMessage"/> that contains the <see cref="HEntity"/> data to parse.</param>
         /// <returns></returns>
-        public static IReadOnlyList<HSentient> Parse(HMessage packet)
+        public static IReadOnlyList<HEntity> Parse(HMessage packet)
         {
-            int sentientCount = packet.ReadInteger();
-            var sentientList = new List<HSentient>(sentientCount);
+            int entityCount = packet.ReadInteger();
+            var entityList = new List<HEntity>(entityCount);
 
-            for (int i = 0; i < sentientList.Capacity; i++)
+            for (int i = 0; i < entityList.Capacity; i++)
             {
                 int id = packet.ReadInteger();
                 string name = packet.ReadString();
@@ -162,17 +162,17 @@ namespace Sulakore.Habbo
                 }
                 #endregion
 
-                var sentient = new HSentient(id, index, name,
+                var entity = new HEntity(id, index, name,
                     new HPoint(x, y, z), motto, gender, figureId, favoriteGroup);
 
-                sentientList.Add(sentient);
+                entityList.Add(entity);
             }
-            
-            return sentientList;
+
+            return entityList;
         }
 
         /// <summary>
-        /// Converts this <see cref="HSentient"/> to a human-readable string.
+        /// Converts the <see cref="HEntity"/> to a human-readable string.
         /// </summary>
         /// <returns></returns>
         public override string ToString() =>
