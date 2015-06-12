@@ -42,7 +42,7 @@ namespace Sulakore.Habbo.Protocol
 
         private ushort _header;
         /// <summary>
-        /// Gets or sets the header of this <see cref="HMessage"/>.
+        /// Gets or sets the header of the <see cref="HMessage"/>.
         /// </summary>
         public override ushort Header
         {
@@ -58,20 +58,20 @@ namespace Sulakore.Habbo.Protocol
         }
 
         /// <summary>
-        /// Gets or sets the position that determines where to begin the next read/write operation in this <see cref="HMessage"/>.
+        /// Gets or sets the position that determines where to begin the next read/write operation in the <see cref="HMessage"/>.
         /// </summary>
         public override int Position { get; set; }
         /// <summary>
-        /// Gets or sets the <see cref="HDestination"/> for this <see cref="HMessage"/>.
+        /// Gets or sets the <see cref="HDestination"/> for the <see cref="HMessage"/>.
         /// </summary>
         public override HDestination Destination { get; set; }
 
         /// <summary>
-        /// Gets a value that determines whether this <see cref="HMessage"/> is readable/writable.
+        /// Gets a value that determines whether the <see cref="HMessage"/> is readable/writable.
         /// </summary>
         public override bool IsCorrupted { get; }
         /// <summary>
-        /// Gets the length of this <see cref="HMessage"/>.
+        /// Gets the length of the <see cref="HMessage"/>.
         /// </summary>
         public override int Length { get; protected set; }
         /// <summary>
@@ -81,13 +81,13 @@ namespace Sulakore.Habbo.Protocol
 
         private readonly List<object> _read;
         /// <summary>
-        /// Gets a <see cref="IReadOnlyList{T}"/> of type <see cref="object"/> containing read values from this <see cref="HMessage"/>.
+        /// Gets a <see cref="IReadOnlyList{T}"/> of type <see cref="object"/> containing read values from the <see cref="HMessage"/>.
         /// </summary>
         public IReadOnlyList<object> ValuesRead => _read;
 
         private readonly List<object> _written;
         /// <summary>
-        /// Gets a <see cref="IReadOnlyList{T}"/> of type <see cref="object"/> containing the written values of this <see cref="HMessage"/>.
+        /// Gets a <see cref="IReadOnlyList{T}"/> of type <see cref="object"/> containing the written values of the <see cref="HMessage"/>.
         /// </summary>
         public IReadOnlyList<object> ValuesWritten => _written;
 
@@ -244,10 +244,11 @@ namespace Sulakore.Habbo.Protocol
                 case TypeCode.Boolean: bytesNeeded = 1; break;
                 case TypeCode.String:
                 {
-                    int stringLength = BigEndian.DecypherShort(Body, index);
-
                     if (bytesLeft > 2)
+                    {
+                        int stringLength = BigEndian.DecypherShort(Body, index);
                         bytesNeeded = (2 + stringLength);
+                    }
                     break;
                 }
             }
