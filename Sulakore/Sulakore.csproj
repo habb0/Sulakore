@@ -113,7 +113,6 @@
     <Compile Include="Habbo\Web\HSession.cs" />
     <Compile Include="Habbo\Web\HUser.cs" />
     <Compile Include="HHotel.cs" />
-    <Compile Include="Internals\NativeMethods.cs" />
     <Compile Include="SKore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
