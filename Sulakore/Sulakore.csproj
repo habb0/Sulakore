@@ -46,8 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\Event Args\InterceptedEventArgs.cs" />
-    <Compile Include="Communication\Event Args\EavesdropperRequestEventArgs.cs" />
-    <Compile Include="Communication\Event Args\EavesdropperResponseEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\FurnitureLoadEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\EntityActionEventArgs.cs" />
     <Compile Include="Communication\Event Args\Incoming Event Args\PlayerUpdateEventArgs.cs" />
@@ -78,25 +76,6 @@
     <Compile Include="Communication\HConnection.cs" />
     <Compile Include="Communication\HNode.cs" />
     <Compile Include="Communication\HTriggers.cs" />
-    <Compile Include="Components\SKoreButton.cs" />
-    <Compile Include="Components\SKoreClient.cs" />
-    <Compile Include="Components\SKoreConstructer.cs" />
-    <Compile Include="Components\SKoreExtensionView.cs" />
-    <Compile Include="Components\SKoreForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Components\SKoreLabel.cs" />
-    <Compile Include="Components\SKoreListView.cs" />
-    <Compile Include="Components\SKoreScheduler.cs" />
-    <Compile Include="Components\SKoreTabControl.cs" />
-    <Compile Include="Components\Types\Event Args\HScheduleTriggeredEventArgs.cs" />
-    <Compile Include="Components\Types\HSchedule.cs" />
-    <Compile Include="Extensions\Contractor.cs" />
-    <Compile Include="Extensions\Enums\ExtensionPriority.cs" />
-    <Compile Include="Extensions\Event Args\InvokedEventArgs.cs" />
-    <Compile Include="Extensions\ExtensionBase.cs" />
-    <Compile Include="Extensions\IContractor.cs" />
-    <Compile Include="Extensions\IExtension.cs" />
     <Compile Include="Habbo\Enums\HAction.cs" />
     <Compile Include="Habbo\Enums\HBan.cs" />
     <Compile Include="Habbo\Enums\HDance.cs" />
